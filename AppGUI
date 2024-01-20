@@ -2,7 +2,7 @@ import PySimpleGUI as sg
 import matplotlib.pyplot as plt
 import io
 
-#Data from backend
+#Data from the backend
 Day_21Jan = {'Food': 2668, 'Grocery': 1180}
 Weekly = {'Food': 2024, 'Grocery': 11603, 'Entertainment': 4954, 'Miscellaneous': 64997, 'Electronic': 355992, 'Home Improvement': 332696}
 Monthly = {'Week 1': 100, 'Week 2': 200, 'Week 3': 300, 'Week 4': 400}
