@@ -2,19 +2,38 @@ import PySimpleGUI as sg
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
-count = {'Food': 2, 'Grocery': 10, 'Entertainment': 4, 'Miscellaneous': 10, 'Electronic': 1, 'Home Improvement': 3}
-costs = {'Food': 2024, 'Grocery': 11603, 'Entertainment': 4954, 'Miscellaneous': 64997, 'Electronic': 355992, 'Home Improvement': 332696}
+data1 = {'Food': 2, 'Grocery': 10, 'Entertainment': 4, 'Miscellaneous': 10, 'Electronic': 1, 'Home Improvement': 3}
+data2 = {'Food': 2024, 'Grocery': 11603, 'Entertainment': 4954, 'Miscellaneous': 64997, 'Electronic': 355992, 'Home Improvement': 332696}
+
+# Create the figures and axes for the bar graphs
+fig1, ax1 = plt.subplots()
+fig2, ax2 = plt.subplots()
+
+# Customize the appearance of the bar graphs
+ax1.bar(data1.keys(), data1.values(), color='blue')
+ax1.set_title('Bar Graph 1')
+ax1.set_ylabel('Count')
+
+ax2.bar(data2.keys(), data2.values(), color='orange')
+ax2.set_title('Bar Graph 2')
+ax2.set_ylabel('Cost')
+ax2.yaxis.set_major_formatter('${x:,.0f}')
+
+# Embed the Matplotlib figures in the PySimpleGUI canvas
+canvas_elem1 = sg.Canvas(key='canvas1', size=(800, 600))
+canvas_elem2 = sg.Canvas(key='canvas2', size=(800, 600))
 
 sg.LOOK_AND_FEEL_TABLE['MyTheme'] = {'BACKGROUND': '#000000',
-                                            'TEXT': '#FF0000',
-                                            'INPUT': '#4A4A4A',
-                                            'TEXT_INPUT': '#E3242B',
-                                            'SCROLL': '#414a4c',
-                                            'BUTTON': ('#0e1111', '#900603'),
-                                            'PROGRESS': ('#D1826B', '#CC8019'),
-                                            'BORDER': 1, 'SLIDER_DEPTH': 0,
-                                            'PROGRESS_DEPTH':0,}
+                                      'TEXT': '#82CAFF',
+                                      'INPUT': '#E6E6E6',
+                                      'TEXT_INPUT': '#282130',
+                                      'SCROLL': '#414a4c',
+                                      'BUTTON': ('#6D6D6D', '#123456'),
+                                      'PROGRESS': ('#D1826B', '#CC8019'),
+                                      'BORDER': 1, 'SLIDER_DEPTH': 0,
+                                      'PROGRESS_DEPTH': 0}
 
+sg.theme('MyTheme')
 layout_window1 = [
     [sg.Text("Enter your current Salary:"), sg.InputText(key='input_text')],
     [sg.Text("Note: in a real application the user need not enter this ")],
@@ -28,36 +47,93 @@ layout_window1 = [
     [sg.Text("Entertainment       "), sg.InputText(key='entertainment')],
     [sg.Text("Electronic              "), sg.InputText(key='electronic')],
     [sg.Text("Home Improvement"), sg.InputText(key='home')],
-    [sg.Button("Next")]
+    [sg.Button('Next')]
 ]
 
 layout_window2 = [
-    [sg.Canvas(key='canvas')],
+    [sg.Text("line graphs")],
+    [sg.Button('Next')],
 ]
 
-window1 = sg.Window('Window 1', layout_window1)
+layout_window3 = [
+    [sg.Button('Show Bar Graph 1', key='show_graph1'), sg.Button('Show Bar Graph 2', key='show_graph2')],
+    [sg.Text("Hello from Window 2!")],
+    [canvas_elem1, canvas_elem2],
+    [sg.Button('Next'), sg.Button('Previous')],
+]
+
+layout_window4 = [
+    [sg.Text("Text from Window 1: "), sg.Text('', key='output_text')],
+    [sg.Button('Previous')]
+]
+
+# Create the windows
+window1 = sg.Window('Window 1', layout_window1, finalize=True)
+window2 = sg.Window('Window 2', layout_window2, finalize=True)
+window3 = sg.Window('Window 3', layout_window3, finalize=True)
+window4 = sg.Window('Window 4', layout_window4, finalize=True)
+
+# Hide all windows except the first one
+window2.hide()
+window3.hide()
+window4.hide()
+
+# Update the Matplotlib figures in the PySimpleGUI canvas
+draw1 = FigureCanvasTkAgg(fig1, window3['canvas1'].Widget)
+draw1.draw()
+
+draw2 = FigureCanvasTkAgg(fig2, window3['canvas2'].Widget)
+draw2.draw()
+
+canvas_elem1.Widget.pack(side='top', fill='both', expand=1)
+canvas_elem2.Widget.pack_forget()
+
+windows = [window1, window2, window3, window4]
+current_window_index = 0
 
 while True:
-    event1, values1 = window1.read()
+    window, event, values = sg.read_all_windows()
 
-    if event1 == sg.WINDOW_CLOSED:
-        break
-    elif event1 == 'Next':
-        window1.close()
-        fig, ax = plt.subplots()
-        ax.plot(list(count.values()), label="count")
-        ax.plot(list(costs.values()), label="costs")
-        ax.legend()
-        canvas = FigureCanvasTkAgg(fig, master=window1)
-        canvas.draw()
-        canvas.get_tk_widget().pack(side='top', fill='both', expand=1)
-        window2 = sg.Window('Window 2', layout_window2, finalize=True, resizable=True, location=(window1.current_location()[0], window1.current_location()[1]))
+    if event == sg.WINDOW_CLOSED:
         break
 
-while True:
-    event2, values2 = window2.read()
+    if event == 'Next':
+        if current_window_index == 0:
+            input_text = values['input_text']
+            window4['output_text'].update(input_text)
 
-    if event2 == sg.WINDOW_CLOSED:
-        break
+        windows[current_window_index].hide()
+        current_window_index = (current_window_index + 1) % len(windows)
+        windows[current_window_index].un_hide()
 
-window2.close()
+    if event == 'Previous':
+        windows[current_window_index].hide()
+        current_window_index = (current_window_index - 1) % len(windows)
+        windows[current_window_index].un_hide()
+
+    if event == 'show_graph1':
+        ax1.clear()
+        ax1.bar(data1.keys(), data1.values(), color='blue')
+        ax1.set_title('Bar Graph 1')
+        ax1.set_ylabel('Count')
+        draw1.draw()
+
+        # Show the canvas with Bar Graph 1 and hide the other canvas
+        canvas_elem1.Widget.pack(side='top', fill='both', expand=1)
+        canvas_elem2.Widget.pack_forget()
+
+    if event == 'show_graph2':
+        ax2.clear()
+        ax2.bar(data2.keys(), data2.values(), color='orange')
+        ax2.set_title('Bar Graph 2')
+        ax2.set_ylabel('Cost')
+        ax2.yaxis.set_major_formatter('${x:,.0f}')
+        draw2.draw()
+
+        # Show the canvas with Bar Graph 2 and hide the other canvas
+        canvas_elem2.Widget.pack(side='top', fill='both', expand=1)
+        canvas_elem1.Widget.pack_forget()
+
+# Close all windows when the loop exits
+for window in windows:
+    window.close()
