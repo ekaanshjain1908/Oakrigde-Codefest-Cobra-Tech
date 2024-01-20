@@ -5,7 +5,7 @@ import io
 #Data from backend
 Day_21Jan = {'Food': 2668, 'Grocery': 1180}
 Weekly = {'Food': 2024, 'Grocery': 11603, 'Entertainment': 4954, 'Miscellaneous': 64997, 'Electronic': 355992, 'Home Improvement': 332696}
-Monthly = {'Week 1': 100, 'Week 2': 200, 'Week 3': 300, 'Week 4': 400}
+Monthly = {'Week 1': 170, 'Week 2': 200, 'Week 3': 300, 'Week 4': 400}
 Yearly = {'Mon': 51, 'Tue': 2, 'Wed': 3, 'Thu': 4, 'Fri': 5, 'Sat': 6, 'Sun': 7}
 
 #Line graphs for window 2
@@ -148,70 +148,84 @@ sg.LOOK_AND_FEEL_TABLE['MyTheme'] = {'BACKGROUND': '#000000',
 
 sg.theme('MyTheme')
 
+button_proportion = (20, 10)  # (width, height)
+graph_proportion = (80, 90)
+
 #layout for windows 1-4
 layout_window1 = [
     [sg.Text("Enter your current Salary:"), sg.InputText(key='input_text')],
-    [sg.Text("Note: in a real application the user need not enter this ")],
+    [sg.Text("Note: in a real application, the user need not enter this ")],
     [sg.Text("Please fill your expected expenditure for the following categories:")],
-    [sg.Text("Repairs                "), sg.InputText(key='repair')],
-    [sg.Text("Movies                 "), sg.InputText(key='movies')],
-    [sg.Text("Transport             "), sg.InputText(key='transport')],
-    [sg.Text("Insurance             "), sg.InputText(key='insurance')],
-    [sg.Text("Food                    "), sg.InputText(key='food')],
-    [sg.Text("Grocery               "), sg.InputText(key='grocery')],
-    [sg.Text("Entertainment       "), sg.InputText(key='entertainment')],
-    [sg.Text("Electronic              "), sg.InputText(key='electronic')],
+    [sg.Text("Repairs"), sg.InputText(key='repair')],
+    [sg.Text("Movies"), sg.InputText(key='movies')],
+    [sg.Text("Transport"), sg.InputText(key='transport')],
+    [sg.Text("Insurance"), sg.InputText(key='insurance')],
+    [sg.Text("Food"), sg.InputText(key='food')],
+    [sg.Text("Grocery"), sg.InputText(key='grocery')],
+    [sg.Text("Entertainment"), sg.InputText(key='entertainment')],
+    [sg.Text("Electronic"), sg.InputText(key='electronic')],
     [sg.Text("Home Improvement"), sg.InputText(key='home')],
-    [sg.Button('Next')]
+    [sg.Button('Next', size=(30,4))]
 ]
-
 layout_window2 = [
-    [sg.Button('Day', key='l_graph1'), sg.Button('Year', key='l_graph2'),
-    sg.Button('Month', key='l_graph3'), sg.Button('Week', key='l_graph4')],
+    [sg.Button('Day', key='l_graph1', size=(30,4)), sg.Button('Year', key='l_graph2', size=(30,4)),
+    sg.Button('Month', key='l_graph3', size=(30,4)), sg.Button('Week', key='l_graph4', size=(30,4))],
     [sg.Image(data=img_line1_data.getvalue(), key='canvas_line1'), sg.Image(data=img_line2_data.getvalue(), key='canvas_line2'),
     sg.Image(data=img_line3_data.getvalue(), key='canvas_line3'), sg.Image(data=img_line4_data.getvalue(), key='canvas_line4')],
-    [sg.Button('Previous'), sg.Button('Next')],
+    [sg.Button('Previous', size=(30,4)), sg.Button('Next', size=(30,4))],
 ]
 layout_window3 = [
-    [sg.Button('Day', key='b_graph1'), sg.Button('Year', key='b_graph2'),
-     sg.Button('Month', key='b_graph3'), sg.Button('Week', key='b_graph4')],
-    [sg.Image(data=img1_data.getvalue(), key='canvas1',), sg.Image(data=img2_data.getvalue(), key='canvas2'),
+    [sg.Button('Day', key='b_graph1', size=(30,4)), sg.Button('Year', key='b_graph2', size=(30,4)),
+     sg.Button('Month', key='b_graph3', size=(30,4)), sg.Button('Week', key='b_graph4', size=(30,4))],
+    [sg.Image(data=img1_data.getvalue(), key='canvas1'), sg.Image(data=img2_data.getvalue(), key='canvas2'),
      sg.Image(data=img3_data.getvalue(), key='canvas3'), sg.Image(data=img4_data.getvalue(), key='canvas4')],
-    [sg.Button('Previous'), sg.Button('Next')],
+    [sg.Button('Previous', size=(30,4)), sg.Button('Next', size=(30,4))],
 ]
 
 layout_window4 = [
-    [sg.Button('Day', key='p_graph1'), sg.Button('Year', key='p_graph2'),
-     sg.Button('Month', key='p_graph3'), sg.Button('Week', key='p_graph4')],
+    [sg.Button('Day', key='p_graph1', size=(30,4)), sg.Button('Year', key='p_graph2', size=(30,4)),
+     sg.Button('Month', key='p_graph3', size=(30,4)), sg.Button('Week', key='p_graph4', size=(30,4))],
     [sg.Image(data=img_pie1_data.getvalue(), key='canvas_pie1'),sg.Image(data=img_pie2_data.getvalue(), key='canvas_pie2'),
      sg.Image(data=img_pie3_data.getvalue(), key='canvas_pie3'),sg.Image(data=img_pie4_data.getvalue(), key='canvas_pie4')],
-    [sg.Button('Previous')],
+    [sg.Button('Previous', size=(30,4))],
 ]
 
 window1 = sg.Window('Welcome to cobra tech',
-                    layout = layout_window1,
+                    layout=layout_window1,
                     resizable=True,
                     element_justification='c',
-                    location=(10,300),
+                    location=(10, 300),
                     ).finalize()
+
 window2 = sg.Window('Line Graphs',
-                    layout = layout_window2,
+                    layout=layout_window2,
                     resizable=True,
                     element_justification='c',
-                    location=(10,300),
+                    location=(10, 300),
                     ).finalize()
+
 window3 = sg.Window('Bar Graphs',
-                    layout = layout_window3,
+                    layout=layout_window3,
                     resizable=True,
                     element_justification='c',
-                    location=(10,300),
+                    location=(10, 300),
                     ).finalize()
+
 window4 = sg.Window('Pie Graphs',
-                    layout = layout_window4,
+                    layout=layout_window4,
                     resizable=True,
                     element_justification='c',
-                    location=(10,300),
+                    location=(10, 300),
                     ).finalize()
+
+# Maximize the windows to achieve fullscreen behavior
+window1.Maximize()
+window2.Maximize()
+window3.Maximize()
+window4.Maximize()
+
+
+
 window2.hide()
 window3.hide()
 window4.hide()
@@ -243,18 +257,18 @@ while True:
         break
 
     if event == 'Next':
-        #Go forward a window
-
+        # Go forward a window
         windows[current_window_index].hide()
         current_window_index = (current_window_index + 1) % len(windows)
         windows[current_window_index].un_hide()
+        windows[current_window_index].Maximize()  # Maximize the current window
 
     if event == 'Previous':
-        #Go back a window
+        # Go back a window
         windows[current_window_index].hide()
         current_window_index = (current_window_index - 1) % len(windows)
         windows[current_window_index].un_hide()
-
+        windows[current_window_index].Maximize()
         #Buttons to define the graphs
 
     if event == 'l_graph4':
