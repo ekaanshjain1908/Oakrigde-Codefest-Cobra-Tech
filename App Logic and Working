@@ -5,5 +5,19 @@ with open("Document.rtf") as infile:
     text = rtf_to_text(content)
 
 text = text.split()
-text.pop
+text.pop()
 print(text)
+
+while text != []:
+    current_file = text[0:1]
+    print(current_file[0])
+    word = ''
+    text.remove(current_file[0])
+    print(current_file)
+    for i in current_file:
+        for j in i:
+            if j != '-' and j != '.':
+                word += j
+            else:
+                break
+    print(word)
