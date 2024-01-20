@@ -1,29 +1,80 @@
 import PySimpleGUI as sg
 import matplotlib.pyplot as plt
-from PIL import Image
 import io
 
-data1 = {'Food': 2, 'Grocery': 10, 'Entertainment': 4, 'Miscellaneous': 10, 'Electronic': 1, 'Home Improvement': 3}
-data2 = {'Food': 2024, 'Grocery': 11603, 'Entertainment': 4954, 'Miscellaneous': 64997, 'Electronic': 355992, 'Home Improvement': 332696}
-data3 = {'Week 1': 100, 'Week 2': 200, 'Week 3': 300, 'Week 4': 400}
-data4 = {'Mon': 1,'Tue': 2, 'Wed': 3, 'Thu': 4, 'Fri': 5, 'Sat': 6, 'Sun': 7}
+#Data from backend
+Day_21Jan = {'Food': 2668, 'Grocery': 1180}
+Weekly = {'Food': 2024, 'Grocery': 11603, 'Entertainment': 4954, 'Miscellaneous': 64997, 'Electronic': 355992, 'Home Improvement': 332696}
+Monthly = {'Week 1': 100, 'Week 2': 200, 'Week 3': 300, 'Week 4': 400}
+Yearly = {'Mon': 51, 'Tue': 2, 'Wed': 3, 'Thu': 4, 'Fri': 5, 'Sat': 6, 'Sun': 7}
 
+#Line graphs for window 2
+fig_line1, ax_line1 = plt.subplots()
+ax_line1.plot(Day_21Jan.keys(), Day_21Jan.values(), marker='o', label='Data 1')
+ax_line1.set_title('Line Graph - Data 1')
+ax_line1.set_ylabel('Values')
+ax_line1.legend()
 
-# Create the figures and axes for the bar graphs
+fig_line2, ax_line2 = plt.subplots()
+ax_line2.plot(Weekly.keys(), Weekly.values(), marker='o', label='Data 2')
+ax_line2.set_title('Line Graph - Data 2')
+ax_line2.set_ylabel('Values')
+ax_line2.legend()
+
+fig_line3, ax_line3 = plt.subplots()
+ax_line3.plot(Monthly.keys(), Monthly.values(), marker='o', label='Data 3')
+ax_line3.set_title('Line Graph - Data 3')
+ax_line3.set_ylabel('Values')
+ax_line3.legend()
+
+fig_line4, ax_line4 = plt.subplots()
+ax_line4.plot(Yearly.keys(), Yearly.values(), marker='o', label='Data 4')
+ax_line4.set_title('Line Graph - Data 4')
+ax_line4.set_ylabel('Values')
+ax_line4.legend()
+
+img_line1_data = io.BytesIO()
+fig_line1.savefig(img_line1_data, format='png')
+img_line1_data.seek(0)
+
+img_line2_data = io.BytesIO()
+fig_line2.savefig(img_line2_data, format='png')
+img_line2_data.seek(0)
+
+img_line3_data = io.BytesIO()
+fig_line3.savefig(img_line3_data, format='png')
+img_line3_data.seek(0)
+
+img_line4_data = io.BytesIO()
+fig_line4.savefig(img_line4_data, format='png')
+img_line4_data.seek(0)
+
+#Bar Graph for window 3
 fig1, ax1 = plt.subplots()
 fig2, ax2 = plt.subplots()
+fig3, ax3 = plt.subplots()
+fig4, ax4 = plt.subplots()
 
-# Customize the appearance of the bar graphs
-ax1.bar(data1.keys(), data1.values(), color='blue')
-ax1.set_title('Bar Graph 1')
-ax1.set_ylabel('Count')
+ax1.bar(Day_21Jan.keys(), Day_21Jan.values(), color='blue')
+ax1.set_title('Day(Today)')
+ax1.set_ylabel('Cost')
+ax1.yaxis.set_major_formatter('₹{x:,.0f}')
 
-ax2.bar(data2.keys(), data2.values(), color='orange')
-ax2.set_title('Bar Graph 2')
+ax2.bar(Weekly.keys(), Weekly.values(), color='orange')
+ax2.set_title('Year')
 ax2.set_ylabel('Cost')
-ax2.yaxis.set_major_formatter('${x:,.0f}')
+ax2.yaxis.set_major_formatter('₹{x:,.0f}')
 
-# Save the Matplotlib figures as images
+ax3.bar(Monthly.keys(), Monthly.values(), color='green')
+ax3.set_title('Month')
+ax3.set_ylabel('Cost')
+ax3.yaxis.set_major_formatter('₹{x:,.0f}')
+
+ax4.bar(Yearly.keys(), Yearly.values(), color='purple')
+ax4.set_title('Week')
+ax4.set_ylabel('Cost')
+ax4.yaxis.set_major_formatter('₹{x:,.0f}')
+
 img1_data = io.BytesIO()
 fig1.savefig(img1_data, format='png')
 img1_data.seek(0)
@@ -32,7 +83,15 @@ img2_data = io.BytesIO()
 fig2.savefig(img2_data, format='png')
 img2_data.seek(0)
 
-# Embed the images in PySimpleGUI Image elements
+img3_data = io.BytesIO()
+fig3.savefig(img3_data, format='png')
+img3_data.seek(0)
+
+img4_data = io.BytesIO()
+fig4.savefig(img4_data, format='png')
+img4_data.seek(0)
+
+#Custom Theme
 sg.LOOK_AND_FEEL_TABLE['MyTheme'] = {'BACKGROUND': '#000000',
                                       'TEXT': '#82CAFF',
                                       'INPUT': '#E6E6E6',
@@ -44,6 +103,8 @@ sg.LOOK_AND_FEEL_TABLE['MyTheme'] = {'BACKGROUND': '#000000',
                                       'PROGRESS_DEPTH': 0}
 
 sg.theme('MyTheme')
+
+#layout for windows 1-4
 layout_window1 = [
     [sg.Text("Enter your current Salary:"), sg.InputText(key='input_text')],
     [sg.Text("Note: in a real application the user need not enter this ")],
@@ -61,15 +122,18 @@ layout_window1 = [
 ]
 
 layout_window2 = [
-    [sg.Text("line graphs")],
-    [sg.Button('Next')],
-]
-
-layout_window3 = [
-    [sg.Button('Show Bar Graph 1', key='show_graph1'), sg.Button('Show Bar Graph 2', key='show_graph2')],
-    [sg.Text("Hello from Window 2!")],
-    [sg.Image(data=img1_data.getvalue(), key='canvas1'), sg.Image(data=img2_data.getvalue(), key='canvas2')],
+    [sg.Button('Day', key='l_graph1'), sg.Button('Year', key='l_graph2'),
+    sg.Button('Month', key='l_graph3'), sg.Button('Week', key='l_graph4')],
+    [sg.Image(data=img_line1_data.getvalue(), key='canvas_line1'), sg.Image(data=img_line2_data.getvalue(), key='canvas_line2'),
+    sg.Image(data=img_line3_data.getvalue(), key='canvas_line3'), sg.Image(data=img_line4_data.getvalue(), key='canvas_line4')],
     [sg.Button('Next'), sg.Button('Previous')],
+]
+layout_window3 = [
+    [sg.Button('Day', key='b_graph1'), sg.Button('Year', key='b_graph2'),
+     sg.Button('Month', key='b_graph3'), sg.Button('Week', key='b_graph4')],
+    [sg.Image(data=img1_data.getvalue(), key='canvas1'), sg.Image(data=img2_data.getvalue(), key='canvas2'),
+     sg.Image(data=img3_data.getvalue(), key='canvas3'), sg.Image(data=img4_data.getvalue(), key='canvas4')],
+    [sg.Button('Previous'), sg.Button('Next')],
 ]
 
 layout_window4 = [
@@ -77,21 +141,28 @@ layout_window4 = [
     [sg.Button('Previous')]
 ]
 
-# Create the windows
 window1 = sg.Window('Window 1', layout_window1, finalize=True)
 window2 = sg.Window('Window 2', layout_window2, finalize=True)
 window3 = sg.Window('Window 3', layout_window3, finalize=True)
 window4 = sg.Window('Window 4', layout_window4, finalize=True)
 
-# Hide all windows except the first one
 window2.hide()
 window3.hide()
 window4.hide()
 
 windows = [window1, window2, window3, window4]
 current_window_index = 0
-window3['canvas2'].update(data="")
+
+#Hides the graphs
+window2['canvas_line1'].update(data="")
+window2['canvas_line2'].update(data="")
+window2['canvas_line3'].update(data="")
+window2['canvas_line4'].update(data="")
+
 window3['canvas1'].update(data="")
+window3['canvas2'].update(data="")
+window3['canvas3'].update(data="")
+window3['canvas4'].update(data="")
 
 while True:
     window, event, values = sg.read_all_windows()
@@ -100,6 +171,7 @@ while True:
         break
 
     if event == 'Next':
+        #Go forward a window
         if current_window_index == 0:
             input_text = values['input_text']
             window4['output_text'].update(input_text)
@@ -109,20 +181,69 @@ while True:
         windows[current_window_index].un_hide()
 
     if event == 'Previous':
+        #Go back a window
         windows[current_window_index].hide()
         current_window_index = (current_window_index - 1) % len(windows)
         windows[current_window_index].un_hide()
 
-    if event == 'show_graph1':
+        #Buttons to define the graphs
+
+    if event == 'l_graph4':
+        window2['canvas_line4'].update(data=img_line4_data.getvalue())
+        window2['canvas_line2'].update(data="")
+        window2['canvas_line3'].update(data="")
+        window2['canvas_line1'].update(data="")
+        img_line4_data.seek(0)
+
+    if event == 'l_graph3':
+        window2['canvas_line3'].update(data=img_line3_data.getvalue())
+        window2['canvas_line2'].update(data="")
+        window2['canvas_line4'].update(data="")
+        window2['canvas_line1'].update(data="")
+        img_line3_data.seek(0)
+
+    if event == 'l_graph2':
+        window2['canvas_line2'].update(data=img_line2_data.getvalue())
+        window2['canvas_line4'].update(data="")
+        window2['canvas_line3'].update(data="")
+        window2['canvas_line1'].update(data="")
+        img_line2_data.seek(0)
+
+    if event == 'l_graph1':
+        window2['canvas_line1'].update(data=img_line1_data.getvalue())
+        window2['canvas_line2'].update(data="")
+        window2['canvas_line3'].update(data="")
+        window2['canvas_line4'].update(data="")
+        img_line1_data.seek(0)
+
+    if event == 'b_graph1':
+
         window3['canvas1'].update(data=img1_data.getvalue())
         window3['canvas2'].update(data="")
+        window3['canvas3'].update(data="")
+        window3['canvas4'].update(data="")
         img1_data.seek(0)
 
-    if event == 'show_graph2':
+    if event == 'b_graph2':
         window3['canvas2'].update(data=img2_data.getvalue())
         window3['canvas1'].update(data="")
+        window3['canvas3'].update(data="")
+        window3['canvas4'].update(data="")
         img2_data.seek(0)
 
-# Close all windows when the loop exits
+    if event == 'b_graph3':
+        window3['canvas3'].update(data=img3_data.getvalue())
+        window3['canvas2'].update(data="")
+        window3['canvas1'].update(data="")
+        window3['canvas4'].update(data="")
+        img3_data.seek(0)
+
+    if event == 'b_graph4':
+        window3['canvas4'].update(data=img4_data.getvalue())
+        window3['canvas2'].update(data="")
+        window3['canvas3'].update(data="")
+        window3['canvas1'].update(data="")
+        img4_data.seek(0)
+
 for window in windows:
     window.close()
