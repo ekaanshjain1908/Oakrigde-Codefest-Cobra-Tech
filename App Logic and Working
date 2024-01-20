@@ -3,21 +3,32 @@ from striprtf.striprtf import rtf_to_text
 with open("Document.rtf") as infile:
     content = infile.read()
     text = rtf_to_text(content)
-
-text = text.split()
-text.pop()
-print(text)
+Repairs = ['UrbanClap', 'plumb', 'mechanic', 'fix', 'carpent', 'repairs']
+Movies = ['PVR', 'INOX', 'CarnivalCinemas', 'Cinepolis', 'Miraj']
+Transport = ['Ola', 'Uber', 'Nammayatri', 'Makemytrip', 'Booking', 'Indigo', 'airlines']
+Insurance= ['LIC', 'HDFClife', 'Maxlife', 'RelianceNippon', 'Sahara', 'Canara', 'Indiafirst', 'Acko','Cigna', 'digit', 'generali', 'magma']
+food = ['Swiggy', 'Zomato', 'PandaExpress', 'Ubereats', 'Grubhub', 'Doordash', 'Dominos', 'Pizzahut']
+Entertainment = ['PVR', 'BookMyShow', 'Netflix', 'Disney', 'Hotstar', 'Amazonprime', 'Voot', 'JioLiv', 'Sonyliv', 'Youtube']
+Electronic = ['Reliance', 'Croma', 'Sony', 'digital', 'phone', 'electronics', 'electronic', 'realme', 'readme', 'samsung', 'apple', 'HP', 'microsoft', 'casio', 'nokia']
+HomeImprovement= ['sofasandmore', 'stanleys', 'toyota', 'mercedes', 'audi','BMW', 'skoda', 'volkswagen', 'cars', 'sofas', 'durian']
 
 while text != []:
-    current_file = text[0:1]
-    print(current_file[0])
-    word = ''
-    text.remove(current_file[0])
-    print(current_file)
-    for i in current_file:
-        for j in i:
-            if j != '-' and j != '.':
-                word += j
-            else:
-                break
-    print(word)
+
+    text = text.split()
+    text.pop()
+    print(text)
+
+    while text != []:
+        current_file = text[0:1]
+        print(current_file[0])
+        word = ''
+        text.remove(current_file[0])
+        print(current_file)
+        for i in current_file:
+            for j in i:
+                if j != '-' and j != '.':
+                    word += j
+                else:
+                    break
+        print(word)
+
