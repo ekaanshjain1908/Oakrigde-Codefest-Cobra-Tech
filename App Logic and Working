@@ -1,1 +1,9 @@
+from striprtf.striprtf import rtf_to_text
 
+with open("Document.rtf") as infile:
+    content = infile.read()
+    text = rtf_to_text(content)
+
+text = text.split()
+text.pop
+print(text)
