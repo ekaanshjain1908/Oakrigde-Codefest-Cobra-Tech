@@ -75,44 +75,47 @@ while text:
     def check(groceryRepeat, foodRepeat, entertainmentRepeat, miscellanousRepeat, electronicRepeat, homeRepeat, groceryCost, foodCost,
               entertainmentCost, miscellanousCost, electronicCost, homeimprovementCost, groceryCostLIST, foodCostLIST,
               entertainmentCostLIST, miscellanousCostLIST, electronicCostLIST, home_improvementCostLIST, foodDates, groceryDates,
-              entertainmentDates, miscellanousDates, electronicDates, home_improvementDates, word):
+              entertainmentDates, miscellanousDates, electronicDates, home_improvementDates, week1, week2, week3, week4, week5, word):
         print('STARTING CHECK')
         found = 0
         date = ''
         y = 0
         z = 0
         Cost = ''
-        list = []
-        week1 = 0
-        week2 = 0
-        week3 = 0
-        week4 = 0
-        for i in current_file_Cost:
-            list.append(i)
-        while list[z + 2] != '/':
-            list.remove(list[z])
+        list_date = []
+        list_time = []
 
-        for i in list:
+
+
+        for i in current_file_Cost:
+            list_date.append(i)
+        while list_date[z + 2] != '/':
+            list_date.remove(list_date[z])
+
+        for i in current_file_Cost:
+            list_time.append(i)
+        while list[z + 2] != '/':
+            list_time.remove(list_time[z])
+
+        for i in list_date:
             if i == '-':
                 break
             else:
                 date += i
-        print(word)
+
         for i in current_file_Cost:
             y += 1
             for j in i:
                 if j == '₹':
                     while current_file_Cost[y] != '-':
-                        print(current_file_Cost[y])
                         Cost += current_file_Cost[y]
                         y += 1
 
-        print(Cost)
+        for i in list:
 
 
         for i in grocery:
             if word.find(i) != -1:
-                print(i, word)
                 groceryRepeat += 1
                 groceryCost += int(Cost)
                 groceryCostLIST.append(Cost)
@@ -123,7 +126,6 @@ while text:
         for i in food:
             if found != 1:
                 if word.find(i) != -1:
-                    print(i, word)
                     foodRepeat += 1
                     foodCost += int(Cost)
                     foodCostLIST.append(Cost)
@@ -134,7 +136,6 @@ while text:
         for i in entertainment:
             if found != 1:
                 if word.find(i) != -1:
-                    print(i, word)
                     entertainmentRepeat += 1
                     entertainmentCost += int(Cost)
                     entertainmentCostLIST.append(Cost)
@@ -145,7 +146,6 @@ while text:
         for i in electronic:
             if found != 1:
                 if word.find(i) != -1:
-                    print(i, word)
                     electronicRepeat += 1
                     electronicCost += int(Cost)
                     electronicCostLIST.append(Cost)
@@ -156,7 +156,6 @@ while text:
         for i in home_improvement:
             if found != 1:
                 if word.find(i) != -1:
-                    print(i, word)
                     homeRepeat += 1
                     homeimprovementCost += int(Cost)
                     home_improvementCostLIST.append(Cost)
@@ -183,18 +182,24 @@ while text:
         #     if int(currently[0:2]) > 21 and int(currently[0:2]) < 31:
         #         week4 += int(currently[0:2])
         #     Dates.remove(currently)
-        x += int(date[0:2])
-        if x < 7:
-            week1 += int(date[0:2])
-        if x < 14 and x > 7:
-            week2 += int(date[0:2])
-        if x < 21 and x > 14:
-            week3 += int(date[0:2])
-        if x < 28 and x > 21:
-            week4 += int(date[0:2])
-        if int(date[0:2]) < 30 and x > 28:
-            week5 += int(date[0:2])
-        return groceryRepeat, foodRepeat, entertainmentRepeat, miscellanousRepeat, electronicRepeat, homeRepeat, groceryCost, foodCost, entertainmentCost, miscellanousCost, electronicCost, homeimprovementCost, groceryCostLIST, foodCostLIST, entertainmentCostLIST, miscellanousCostLIST, electronicCostLIST, home_improvementCostLIST, foodDates, groceryDates, entertainmentDates, miscellanousDates, electronicDates, home_improvementDates, Dates, week1, week2, week3, week4
+        x = int(date[0:2])
+        y = int(date[3:5])
+        if y == 1:
+            if x < 7:
+                week1 += int(Cost)
+            if x < 14 and x > 7:
+                week2 += int(Cost)
+
+            if x < 21 and x > 14:
+                week3 += int(Cost)
+
+            if x < 28 and x > 21:
+                week4 += int(Cost)
+
+            if int(date[0:2]) < 30 and x > 28:
+                week5 += int(Cost)
+
+        return groceryRepeat, foodRepeat, entertainmentRepeat, miscellanousRepeat, electronicRepeat, homeRepeat, groceryCost, foodCost, entertainmentCost, miscellanousCost, electronicCost, homeimprovementCost, groceryCostLIST, foodCostLIST, entertainmentCostLIST, miscellanousCostLIST, electronicCostLIST, home_improvementCostLIST, foodDates, groceryDates, entertainmentDates, miscellanousDates, electronicDates, home_improvementDates, Dates, week1, week2, week3, week4, week5
 
 
     for i in current_file_name:
@@ -206,10 +211,10 @@ while text:
                 counter += 1
             else:
                 break
-        groceryRepeat, foodRepeat, entertainmentRepeat, miscellanousRepeat, electronicRepeat, homeRepeat, groceryCost, foodCost, entertainmentCost, miscellanousCost, electronicCost, home_improvementCost, groceryCostLIST, foodCostLIST, entertainmentCostLIST, miscellanousCostLIST, electronicCostLIST, home_improvementCostLIST, foodDates, groceryDates, entertainmentDates, miscellanousDates, electronicDates, home_improvementDates, Dates, week1, week2, week3, week4 = check(
+        groceryRepeat, foodRepeat, entertainmentRepeat, miscellanousRepeat, electronicRepeat, homeRepeat, groceryCost, foodCost, entertainmentCost, miscellanousCost, electronicCost, home_improvementCost, groceryCostLIST, foodCostLIST, entertainmentCostLIST, miscellanousCostLIST, electronicCostLIST, home_improvementCostLIST, foodDates, groceryDates, entertainmentDates, miscellanousDates, electronicDates, home_improvementDates, Dates, week1, week2, week3, week4, week5 = check(
             groceryRepeat, foodRepeat, entertainmentRepeat, miscellanousRepeat, electronicRepeat, homeRepeat, groceryCost, foodCost,
             entertainmentCost, miscellanousCost, electronicCost, home_improvementCost, groceryCostLIST, foodCostLIST,
-            entertainmentCostLIST, miscellanousCostLIST, electronicCostLIST, home_improvementCostLIST, foodDates, groceryDates, entertainmentDates, miscellanousDates, electronicDates, home_improvementDates, word)
+            entertainmentCostLIST, miscellanousCostLIST, electronicCostLIST, home_improvementCostLIST, foodDates, groceryDates, entertainmentDates, miscellanousDates, electronicDates, home_improvementDates, week1, week2, week3, week4, week5, word)
         print(groceryRepeat, foodRepeat, entertainmentRepeat, miscellanousRepeat)
 
 print('name', 'Food', foodRepeat, 'Grocery', groceryRepeat, 'Entertainment', entertainmentRepeat, 'Miscellanous',
@@ -232,5 +237,5 @@ print('miscellanous', miscellanousDates)
 print('electronics', electronicDates)
 print('Home improvement', home_improvementDates)
 
-print(week1, week2, week3, week4)
+print(week1, week2, week3, week4, week5)
 print(Dates)
