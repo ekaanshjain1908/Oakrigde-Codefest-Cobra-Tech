@@ -8,57 +8,86 @@ text = text.split()
 text.pop()
 
 '''variables'''
-groceryrep = 0
-entertainmentrep = 0
-foodrep = 0
-miscellanousrep = 0
-electronicrep =0
-homerep = 0
-repairsrep = 0
+groceryRepeat = 0
+entertainmentRepeat = 0
+foodRepeat = 0
+miscellanousRepeat = 0
+electronicRepeat = 0
+homeRepeat = 0
+RepeatairsRepeat = 0
 
-grocerycost = 0
-foodcost = 0
-entertainmentcost = 0
-electroniccost = 0
-home_improvementcost = 0
-miscellanouscost = 0
-repairscost = 0
+groceryCost = 0
+foodCost = 0
+entertainmentCost = 0
+electronicCost = 0
+home_improvementCost = 0
+miscellanousCost = 0
+RepeatairsCost = 0
 
-grocerydate = []
-fooddate = []
-entertainmentdate = []
-miscellanousdate = []
-electronicdate = []
-home_improvementdate = []
-repairsdate = []
+week1 = 0
+week2 = 0
+week3 = 0
+week4 = 0
+week5 = 0
+
+'''Lists'''
+groceryCostLIST = []
+foodCostLIST = []
+entertainmentCostLIST = []
+miscellanousCostLIST = []
+electronicCostLIST = []
+home_improvementCostLIST = []
+RepeatairsCostLIST = []
+
+groceryDates = []
+foodDates = []
+entertainmentDates = []
+miscellanousDates = []
+electronicDates = []
+home_improvementDates = []
+RepeatairsDates = []
+Dates = []
+
 '''dictionaries'''
-
-repairs = ['UrbanClap', 'plumb', 'mechanic', 'fix', 'carpent', 'repairs']
+Repeatairs = ['UrbanClap', 'plumb', 'mechanic', 'fix', 'carpent', 'Repeatairs']
 movies = ['PVR', 'INOX', 'CarnivalCinemas', 'Cinepolis', 'Miraj']
 transport = ['Ola', 'Uber', 'Nammayatri', 'Makemytrip', 'Booking', 'Indigo', 'airlines']
-insurance= ['LIC', 'HDFClife', 'Maxlife', 'RelianceNippon', 'Sahara', 'Canara', 'Indiafirst', 'Acko','Cigna', 'digit', 'generali', 'magma']
+insurance = ['LIC', 'HDFClife', 'Maxlife', 'RelianceNippon', 'Sahara', 'Canara', 'Indiafirst', 'Acko', 'Cigna', 'digit',
+             'generali', 'magma']
 grocery = ['Blinkit', 'mart', 'fruit', 'vegetable', '1mg', 'palmolive']
 food = ['Swiggy', 'Zomato', 'PandaExpress', 'Ubereats', 'Grubhub', 'Doordash', 'Dominos', 'Pizzahut']
-entertainment = ['PVR', 'BookMyShow', 'Netflix', 'Disney', 'Hotstar', 'Amazonprime', 'Voot', 'JioLiv', 'Sonyliv', 'Youtube']
-electronic = ['Reliance', 'Croma', 'Sony', 'digital', 'phone', 'electronics', 'electronic', 'realme', 'readme', 'samsung', 'apple', 'HP', 'microsoft', 'casio', 'nokia']
-home_improvement = ['sofasandmore', 'stanleys', 'toyota', 'mercedes', 'audi','BMW', 'skoda', 'volkswagen', 'cars', 'sofas', 'durian']
+entertainment = ['PVR', 'BookMyShow', 'Netflix', 'Disney', 'Hotstar', 'Amazonprime', 'Voot', 'JioLiv', 'Sonyliv',
+                 'Youtube']
+electronic = ['Reliance', 'Croma', 'Sony', 'digital', 'phone', 'electronics', 'electronic', 'realme', 'readme',
+              'samsung', 'apple', 'HP', 'microsoft', 'casio', 'nokia']
+home_improvement = ['sofasandmore', 'stanleys', 'toyota', 'mercedes', 'audi', 'BMW', 'skoda', 'volkswagen', 'cars',
+                    'sofas', 'durian']
 
-while text != []:
-    WORKING_WITH_name = list(text[0:1])
-    WORKING_WITH_cost = text[0]
+while text:
+    current_file_name = list(text[0:1])
+    current_file_Cost = text[0]
     text.pop(0)
-    print(WORKING_WITH_name)
+    print(current_file_name)
     counter = 0
     recheck = 0
-    def check(groceryrep, foodrep, entertainmentrep, miscellanousrep, electronicrep, homerep, grocerycost, foodcost, entertainmentcost, miscellanouscost, electroniccost, homeimprovementcost, grocerydate, fooddate, entertainmentdate, miscellanousdate, electronicdate, home_improvementdate, word):
+
+
+    def check(groceryRepeat, foodRepeat, entertainmentRepeat, miscellanousRepeat, electronicRepeat, homeRepeat, groceryCost, foodCost,
+              entertainmentCost, miscellanousCost, electronicCost, homeimprovementCost, groceryCostLIST, foodCostLIST,
+              entertainmentCostLIST, miscellanousCostLIST, electronicCostLIST, home_improvementCostLIST, foodDates, groceryDates,
+              entertainmentDates, miscellanousDates, electronicDates, home_improvementDates, word):
         print('STARTING CHECK')
         found = 0
         date = ''
         y = 0
         z = 0
-        cost = ''
+        Cost = ''
         list = []
-        for i in WORKING_WITH_cost:
+        week1 = 0
+        week2 = 0
+        week3 = 0
+        week4 = 0
+        for i in current_file_Cost:
             list.append(i)
         while list[z + 2] != '/':
             list.remove(list[z])
@@ -69,82 +98,106 @@ while text != []:
             else:
                 date += i
         print(word)
-        for i in WORKING_WITH_cost:
+        for i in current_file_Cost:
             y += 1
             for j in i:
                 if j == '₹':
-                    while WORKING_WITH_cost[y] != '-':
-                        print(WORKING_WITH_cost[y])
-                        cost += WORKING_WITH_cost[y]
+                    while current_file_Cost[y] != '-':
+                        print(current_file_Cost[y])
+                        Cost += current_file_Cost[y]
                         y += 1
 
-        print(cost)
+        print(Cost)
 
-        print(word)
-        print(word, 'lol')
 
         for i in grocery:
             if word.find(i) != -1:
                 print(i, word)
-                groceryrep += 1
-                grocerycost += int(cost)
-                grocerydate.append(cost)
+                groceryRepeat += 1
+                groceryCost += int(Cost)
+                groceryCostLIST.append(Cost)
+                groceryDates.append(date)
+                Dates.append(date)
                 found = 1
 
         for i in food:
             if found != 1:
                 if word.find(i) != -1:
                     print(i, word)
-                    foodrep += 1
-                    foodcost += int(cost)
-                    fooddate.append(cost)
+                    foodRepeat += 1
+                    foodCost += int(Cost)
+                    foodCostLIST.append(Cost)
+                    foodDates.append(date)
+                    Dates.append(date)
                     found = 1
 
         for i in entertainment:
             if found != 1:
                 if word.find(i) != -1:
                     print(i, word)
-                    entertainmentrep +=1
-                    entertainmentcost += int(cost)
-                    entertainmentdate.append(cost)
+                    entertainmentRepeat += 1
+                    entertainmentCost += int(Cost)
+                    entertainmentCostLIST.append(Cost)
+                    entertainmentDates.append(date)
+                    Dates.append(date)
                     found = 1
 
         for i in electronic:
             if found != 1:
                 if word.find(i) != -1:
                     print(i, word)
-                    electronicrep += 1
-                    electroniccost += int(cost)
-                    electronicdate.append(cost)
+                    electronicRepeat += 1
+                    electronicCost += int(Cost)
+                    electronicCostLIST.append(Cost)
+                    electronicDates.append(date)
+                    Dates.append(date)
                     found = 1
 
         for i in home_improvement:
             if found != 1:
                 if word.find(i) != -1:
                     print(i, word)
-                    homerep += 1
-                    homeimprovementcost += int(cost)
-                    home_improvementdate.append(cost)
+                    homeRepeat += 1
+                    homeimprovementCost += int(Cost)
+                    home_improvementCostLIST.append(Cost)
+                    home_improvementDates.append(date)
+                    Dates.append(date)
                     found = 1
-        #
-        # for i in repairs:
-        #     if found != 1:
-        #         if word.find(i)!= -1:
-        #             print(i, word)
-        #             repairsrep += 1
-        #             repairscost += int(cost)
-        #             repairsdate.append(cost)
 
 
         if found != 1:
-            miscellanousrep += 1
-            miscellanouscost += int(cost)
-            miscellanousdate.append(cost)
+            miscellanousRepeat += 1
+            miscellanousCost += int(Cost)
+            miscellanousCostLIST.append(Cost)
+            miscellanousDates.append(date)
+            Dates.append(date)
+        x = 0
+        # while Dates != [] and x == len(Dates):
+        #     currently = Dates[0]
+        #     if int(currently[0:2]) < 7:
+        #         week1 += int(currently[0:2])
+        #     if int(currently[0:2]) > 7 and int(currently[0:2]) < 14:
+        #         week2 += int(currently[0:2])
+        #     if int(currently[0:2]) > 14 and int(currently[0:2]) < 21:
+        #         week3 += int(currently[0:2])
+        #     if int(currently[0:2]) > 21 and int(currently[0:2]) < 31:
+        #         week4 += int(currently[0:2])
+        #     Dates.remove(currently)
+        x += int(date[0:2])
+        if x < 7:
+            week1 += int(date[0:2])
+        if x < 14 and x > 7:
+            week2 += int(date[0:2])
+        if x < 21 and x > 14:
+            week3 += int(date[0:2])
+        if x < 28 and x > 21:
+            week4 += int(date[0:2])
+        if int(date[0:2]) < 30 and x > 28:
+            week5 += int(date[0:2])
+        return groceryRepeat, foodRepeat, entertainmentRepeat, miscellanousRepeat, electronicRepeat, homeRepeat, groceryCost, foodCost, entertainmentCost, miscellanousCost, electronicCost, homeimprovementCost, groceryCostLIST, foodCostLIST, entertainmentCostLIST, miscellanousCostLIST, electronicCostLIST, home_improvementCostLIST, foodDates, groceryDates, entertainmentDates, miscellanousDates, electronicDates, home_improvementDates, Dates, week1, week2, week3, week4
 
 
-        return groceryrep, foodrep, entertainmentrep,  miscellanousrep, electronicrep, homerep, grocerycost, foodcost, entertainmentcost, miscellanouscost, electroniccost, homeimprovementcost, grocerydate, fooddate, entertainmentdate, miscellanousdate, electronicdate, home_improvementdate
-
-    for i in WORKING_WITH_name:
+    for i in current_file_name:
         word = ''
         counter = 0
         for j in i:
@@ -153,16 +206,31 @@ while text != []:
                 counter += 1
             else:
                 break
-        groceryrep, foodrep, entertainmentrep, miscellanousrep, electronicrep, homerep, grocerycost, foodcost, entertainmentcost,miscellanouscost, electroniccost, home_improvementcost, grocerydate, fooddate, entertainmentdate, miscellanousdate, electronicdate, home_improvementdate = check(groceryrep, foodrep, entertainmentrep, miscellanousrep,electronicrep, homerep,grocerycost,foodcost,entertainmentcost,miscellanouscost,electroniccost,home_improvementcost, grocerydate, fooddate, entertainmentdate, miscellanousdate, electronicdate, home_improvementdate, word)
-        print(groceryrep, foodrep, entertainmentrep, miscellanousrep)
+        groceryRepeat, foodRepeat, entertainmentRepeat, miscellanousRepeat, electronicRepeat, homeRepeat, groceryCost, foodCost, entertainmentCost, miscellanousCost, electronicCost, home_improvementCost, groceryCostLIST, foodCostLIST, entertainmentCostLIST, miscellanousCostLIST, electronicCostLIST, home_improvementCostLIST, foodDates, groceryDates, entertainmentDates, miscellanousDates, electronicDates, home_improvementDates, Dates, week1, week2, week3, week4 = check(
+            groceryRepeat, foodRepeat, entertainmentRepeat, miscellanousRepeat, electronicRepeat, homeRepeat, groceryCost, foodCost,
+            entertainmentCost, miscellanousCost, electronicCost, home_improvementCost, groceryCostLIST, foodCostLIST,
+            entertainmentCostLIST, miscellanousCostLIST, electronicCostLIST, home_improvementCostLIST, foodDates, groceryDates, entertainmentDates, miscellanousDates, electronicDates, home_improvementDates, word)
+        print(groceryRepeat, foodRepeat, entertainmentRepeat, miscellanousRepeat)
 
-
-print('name', 'Food', foodrep, 'Grocery', groceryrep, 'Entertainment', entertainmentrep, 'Miscellanous', miscellanousrep, 'Electronic', electronicrep, 'Home Improvement', homerep)
-print('cost', 'Food ', foodcost, 'Grocery', grocerycost, 'Entertainement', entertainmentcost, 'Miscellanous', miscellanouscost, 'Electronic', electroniccost, 'Home improvement', home_improvementcost)
+print('name', 'Food', foodRepeat, 'Grocery', groceryRepeat, 'Entertainment', entertainmentRepeat, 'Miscellanous',
+      miscellanousRepeat, 'Electronic', electronicRepeat, 'Home Improvement', homeRepeat)
+print('Cost', 'Food ', foodCost, 'Grocery', groceryCost, 'Entertainement', entertainmentCost, 'Miscellanous',
+      miscellanousCost, 'Electronic', electronicCost, 'Home improvement', home_improvementCost)
 print('Dates')
-print('food', fooddate)
-print('grocery', grocerydate)
-print('entertainment', entertainmentdate)
-print('miscellanous', miscellanousdate)
-print('electronics', electronicdate)
-print('Home improvement', home_improvementdate  )
+print('food', foodCostLIST)
+print('grocery', groceryCostLIST)
+print('entertainment', entertainmentCostLIST)
+print('miscellanous', miscellanousCostLIST)
+print('electronics', electronicCostLIST)
+print('Home improvement', home_improvementCostLIST)
+
+print("Dates")
+print('food', foodDates)
+print('grocery', groceryDates)
+print('entertainment', entertainmentDates)
+print('miscellanous', miscellanousDates)
+print('electronics', electronicDates)
+print('Home improvement', home_improvementDates)
+
+print(week1, week2, week3, week4)
+print(Dates)
