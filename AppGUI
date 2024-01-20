@@ -1,9 +1,13 @@
 import PySimpleGUI as sg
 import matplotlib.pyplot as plt
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from PIL import Image
+import io
 
 data1 = {'Food': 2, 'Grocery': 10, 'Entertainment': 4, 'Miscellaneous': 10, 'Electronic': 1, 'Home Improvement': 3}
 data2 = {'Food': 2024, 'Grocery': 11603, 'Entertainment': 4954, 'Miscellaneous': 64997, 'Electronic': 355992, 'Home Improvement': 332696}
+data3 = {'Week 1': 100, 'Week 2': 200, 'Week 3': 300, 'Week 4': 400}
+data4 = {'Mon': 1,'Tue': 2, 'Wed': 3, 'Thu': 4, 'Fri': 5, 'Sat': 6, 'Sun': 7}
+
 
 # Create the figures and axes for the bar graphs
 fig1, ax1 = plt.subplots()
@@ -19,10 +23,16 @@ ax2.set_title('Bar Graph 2')
 ax2.set_ylabel('Cost')
 ax2.yaxis.set_major_formatter('${x:,.0f}')
 
-# Embed the Matplotlib figures in the PySimpleGUI canvas
-canvas_elem1 = sg.Canvas(key='canvas1', size=(800, 600))
-canvas_elem2 = sg.Canvas(key='canvas2', size=(800, 600))
+# Save the Matplotlib figures as images
+img1_data = io.BytesIO()
+fig1.savefig(img1_data, format='png')
+img1_data.seek(0)
 
+img2_data = io.BytesIO()
+fig2.savefig(img2_data, format='png')
+img2_data.seek(0)
+
+# Embed the images in PySimpleGUI Image elements
 sg.LOOK_AND_FEEL_TABLE['MyTheme'] = {'BACKGROUND': '#000000',
                                       'TEXT': '#82CAFF',
                                       'INPUT': '#E6E6E6',
@@ -58,7 +68,7 @@ layout_window2 = [
 layout_window3 = [
     [sg.Button('Show Bar Graph 1', key='show_graph1'), sg.Button('Show Bar Graph 2', key='show_graph2')],
     [sg.Text("Hello from Window 2!")],
-    [canvas_elem1, canvas_elem2],
+    [sg.Image(data=img1_data.getvalue(), key='canvas1'), sg.Image(data=img2_data.getvalue(), key='canvas2')],
     [sg.Button('Next'), sg.Button('Previous')],
 ]
 
@@ -78,18 +88,10 @@ window2.hide()
 window3.hide()
 window4.hide()
 
-# Update the Matplotlib figures in the PySimpleGUI canvas
-draw1 = FigureCanvasTkAgg(fig1, window3['canvas1'].Widget)
-draw1.draw()
-
-draw2 = FigureCanvasTkAgg(fig2, window3['canvas2'].Widget)
-draw2.draw()
-
-canvas_elem1.Widget.pack(side='top', fill='both', expand=1)
-canvas_elem2.Widget.pack_forget()
-
 windows = [window1, window2, window3, window4]
 current_window_index = 0
+window3['canvas2'].update(data="")
+window3['canvas1'].update(data="")
 
 while True:
     window, event, values = sg.read_all_windows()
@@ -112,27 +114,14 @@ while True:
         windows[current_window_index].un_hide()
 
     if event == 'show_graph1':
-        ax1.clear()
-        ax1.bar(data1.keys(), data1.values(), color='blue')
-        ax1.set_title('Bar Graph 1')
-        ax1.set_ylabel('Count')
-        draw1.draw()
-
-        # Show the canvas with Bar Graph 1 and hide the other canvas
-        canvas_elem1.Widget.pack(side='top', fill='both', expand=1)
-        canvas_elem2.Widget.pack_forget()
+        window3['canvas1'].update(data=img1_data.getvalue())
+        window3['canvas2'].update(data="")
+        img1_data.seek(0)
 
     if event == 'show_graph2':
-        ax2.clear()
-        ax2.bar(data2.keys(), data2.values(), color='orange')
-        ax2.set_title('Bar Graph 2')
-        ax2.set_ylabel('Cost')
-        ax2.yaxis.set_major_formatter('${x:,.0f}')
-        draw2.draw()
-
-        # Show the canvas with Bar Graph 2 and hide the other canvas
-        canvas_elem2.Widget.pack(side='top', fill='both', expand=1)
-        canvas_elem1.Widget.pack_forget()
+        window3['canvas2'].update(data=img2_data.getvalue())
+        window3['canvas1'].update(data="")
+        img2_data.seek(0)
 
 # Close all windows when the loop exits
 for window in windows:
