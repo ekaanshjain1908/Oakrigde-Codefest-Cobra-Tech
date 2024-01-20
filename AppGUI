@@ -200,15 +200,10 @@ layout_window5 = [
      sg.Button('Month', key='month_5', size=(30, 4)),
      sg.Button('Year', key='year_5', size=(30, 4)),
      sg.Button('Show Graphs', key='show_graphs', size=(30, 4))],
-    [sg.Text(f"Your salary is: {salary_value}. While your average monthly expenditure is: {expenditure}")]
+    [sg.Text("Your current salary: "), sg.Text('', key='output_text'),
+    sg.Text(f"While your average monthly expenditure is: {expenditure}")]
 ]
 
-window5 = sg.Window('Savings vs Expenditure',
-                    layout=layout_window5,
-                    resizable=True,
-                    element_justification='c',
-                    location=(10, 300),
-                    ).finalize()
 
 window1 = sg.Window('Welcome to cobra tech',
                     layout=layout_window1,
@@ -237,13 +232,19 @@ window4 = sg.Window('Pie Graphs',
                     element_justification='c',
                     location=(10, 300),
                     ).finalize()
+window5 = sg.Window('Savings vs Expenditure',
+                                layout=layout_window5,
+                                resizable=True,
+                                element_justification='c',
+                                location=(10, 300),
+                                ).finalize()
 
 # Maximize the windows to achieve fullscreen behavior
 window1.Maximize()
 window2.Maximize()
 window3.Maximize()
 window4.Maximize()
-window5.Maximize
+window5.Maximize()
 
 
 
@@ -270,197 +271,46 @@ window4['canvas_pie1'].update(data="")
 window4['canvas_pie2'].update(data="")
 window4['canvas_pie3'].update(data="")
 window4['canvas_pie4'].update(data="")
-def show_graphs():
-    fig_line1, ax_line1 = plt.subplots()
-    ax_line1.plot(Day_21Jan.keys(), Day_21Jan.values(), marker='o', label='Data 1')
-    ax_line1.set_title('Daily')
-    ax_line1.set_ylabel('Expenditure')
-    ax_line1.legend()
-
-    fig_line2, ax_line2 = plt.subplots()
-    ax_line2.plot(Weekly.keys(), Weekly.values(), marker='o', label='Data 2')
-    ax_line2.set_title('Yearly')
-    ax_line2.set_ylabel('Expenditure')
-    ax_line2.legend()
-
-    fig_line3, ax_line3 = plt.subplots()
-    ax_line3.plot(Monthly.keys(), Monthly.values(), marker='o', label='Data 3')
-    ax_line3.set_title('Monthly')
-    ax_line3.set_ylabel('Expenditure')
-    ax_line3.legend()
-
-    fig_line4, ax_line4 = plt.subplots()
-    ax_line4.plot(Yearly.keys(), Yearly.values(), marker='o', label='Data 4')
-    ax_line4.set_title('Weekly')
-    ax_line4.set_ylabel('Expenditure')
-    ax_line4.legend()
-
-    img_line1_data = io.BytesIO()
-    fig_line1.savefig(img_line1_data, format='png')
-    img_line1_data.seek(0)
-
-    img_line2_data = io.BytesIO()
-    fig_line2.savefig(img_line2_data, format='png')
-    img_line2_data.seek(0)
-
-    img_line3_data = io.BytesIO()
-    fig_line3.savefig(img_line3_data, format='png')
-    img_line3_data.seek(0)
-
-    img_line4_data = io.BytesIO()
-    fig_line4.savefig(img_line4_data, format='png')
-    img_line4_data.seek(0)
-
-    window5['canvas_line1'].update(data=img_line1_data.getvalue())
-    window5['canvas_line2'].update(data=img_line2_data.getvalue())
-    window5['canvas_line3'].update(data=img_line3_data.getvalue())
-    window5['canvas_line4'].update(data=img_line4_data.getvalue())
-
-    img_line1_data.close()
-    img_line2_data.close()
-    img_line3_data.close()
-    img_line4_data.close()
-
 
 while True:
     window, event, values = sg.read_all_windows()
 
-    if event == sg.WINDOW_CLOSED:
+    if event == sg.WIN_CLOSED:
         break
 
     if event == 'Next':
+        if current_window_index == 0:
+            input_text = values['input_text']
+            window5['output_text'].update(input_text)
+
+        # Check if it's the last window
         if current_window_index == len(windows) - 1:
+            # Update the salary_value variable with the entered value
             salary_value = input_text
             expenditure = 16000
 
-        if event == 'show_graphs':
-            show_graphs()
         else:
+            # Go forward a window
             windows[current_window_index].hide()
             current_window_index = (current_window_index + 1) % len(windows)
             windows[current_window_index].un_hide()
             windows[current_window_index].Maximize()
 
-        if event == 'l_graph4':
-            window2['canvas_line4'].update(data=img_line4_data.getvalue())
-            window2['canvas_line2'].update(data="")
-            window2['canvas_line3'].update(data="")
-            window2['canvas_line1'].update(data="")
-            img_line4_data.seek(0)
+    elif event.startswith(('l_graph', 'b_graph', 'p_graph')):
+        _, graph_type, graph_num = event.split('_')
 
-        if event == 'l_graph3':
-            window2['canvas_line3'].update(data=img_line3_data.getvalue())
-            window2['canvas_line2'].update(data="")
-            window2['canvas_line4'].update(data="")
-            window2['canvas_line1'].update(data="")
-            img_line3_data.seek(0)
-
-        if event == 'l_graph2':
-            window2['canvas_line2'].update(data=img_line2_data.getvalue())
-            window2['canvas_line4'].update(data="")
-            window2['canvas_line3'].update(data="")
-            window2['canvas_line1'].update(data="")
-            img_line2_data.seek(0)
-
-        if event == 'l_graph1':
-            window2['canvas_line1'].update(data=img_line1_data.getvalue())
-            window2['canvas_line2'].update(data="")
-            window2['canvas_line3'].update(data="")
-            window2['canvas_line4'].update(data="")
-            img_line1_data.seek(0)
-
-        if event == 'b_graph1':
-
-            window3['canvas1'].update(data=img1_data.getvalue())
-            window3['canvas2'].update(data="")
-            window3['canvas3'].update(data="")
-            window3['canvas4'].update(data="")
-            img1_data.seek(0)
-
-        if event == 'b_graph2':
-            window3['canvas2'].update(data=img2_data.getvalue())
-            window3['canvas1'].update(data="")
-            window3['canvas3'].update(data="")
-            window3['canvas4'].update(data="")
-            img2_data.seek(0)
-
-        if event == 'b_graph3':
-            window3['canvas3'].update(data=img3_data.getvalue())
-            window3['canvas2'].update(data="")
-            window3['canvas1'].update(data="")
-            window3['canvas4'].update(data="")
-            img3_data.seek(0)
-
-        if event == 'b_graph4':
-            window3['canvas4'].update(data=img4_data.getvalue())
-            window3['canvas2'].update(data="")
-            window3['canvas3'].update(data="")
-            window3['canvas1'].update(data="")
-            img4_data.seek(0)
-
-        if event == 'p_graph1':
-            window4['canvas_pie1'].update(data=img_pie1_data.getvalue())
-            window4['canvas_pie2'].update(data="")
-            window4['canvas_pie3'].update(data="")
-            window4['canvas_pie4'].update(data="")
-            img_pie1_data.seek(0)
-
-        if event == 'p_graph2':
-            window4['canvas_pie2'].update(data=img_pie2_data.getvalue())
-            window4['canvas_pie1'].update(data="")
-            window4['canvas_pie3'].update(data="")
-            window4['canvas_pie4'].update(data="")
-            img_pie2_data.seek(0)
-
-        if event == 'p_graph3':
-            window4['canvas_pie3'].update(data=img_pie3_data.getvalue())
-            window4['canvas_pie2'].update(data="")
-            window4['canvas_pie1'].update(data="")
-            window4['canvas_pie4'].update(data="")
-            img_pie3_data.seek(0)
-
-        if event == 'p_graph4':
-            window4['canvas_pie4'].update(data=img_pie4_data.getvalue())
-            window4['canvas_pie2'].update(data="")
-            window4['canvas_pie3'].update(data="")
-            window4['canvas_pie1'].update(data="")
-            img_pie1_data.seek(0)
-
-        if event == 'Next':
-            # Update the salary_value variable with the entered value
-            salary_value = input_text
-        if event == 'day_5':
-            if salary_value / 30 > expenditure / 30:
-                [sg.Text(f"Net savings of: {salary_value / 30 - expenditure / 30}")]
-            elif salary_value / 30 == expenditure / 30:
-                [sg.Text("No savings")]
-            else:
-                [sg.Text(f"Net savings of: {salary_value / 30 - expenditure / 30}")]
-
-        if event == 'week_5':
-            if salary_value / 4 > expenditure / 4:
-                [sg.Text(f"Net savings of: {salary_value / 4 - expenditure / 4}")]
-            elif salary_value / 4 == expenditure / 4:
-                [sg.Text("No savings")]
-            else:
-                [sg.Text(f"Net savings of: {salary_value / 4 - expenditure / 4}")]
-
-        if event == 'month_5':
-            if salary_value > expenditure:
-                [sg.Text(f"Net savings of: {salary_value - expenditure}")]
-            elif salary_value == expenditure:
-                [sg.Text("No savings")]
-            else:
-                [sg.Text(f"Net savings of: {salary_value - expenditure}")]
-
-        if event == 'year_5':
-            if salary_value * 12 > expenditure * 12:
-                [sg.Text(f"Net savings of: {salary_value * 12 - expenditure * 12}")]
-            elif salary_value * 12 == expenditure * 12:
-                [sg.Text("No savings")]
-            else:
-                [sg.Text(f"Net savings of: {salary_value * 12 - expenditure * 12}")]
-
+        # Update the corresponding canvas in the respective window
+        if graph_type == 'graph':
+            graph_num = int(graph_num)
+            if 1 <= graph_num <= 4:
+                window2[f'canvas_line{graph_num}'].update(data=img_line_data[graph_num - 1].getvalue())
+                img_line_data[graph_num - 1].seek(0)
+            elif 1 <= graph_num <= 4:
+                window3[f'canvas{graph_num}'].update(data=img_data[graph_num - 1].getvalue())
+                img_data[graph_num - 1].seek(0)
+            elif 1 <= graph_num <= 4:
+                window4[f'canvas_pie{graph_num}'].update(data=img_pie_data[graph_num - 1].getvalue())
+                img_pie_data[graph_num - 1].seek(0)
 
 for window in windows:
     window.close()
