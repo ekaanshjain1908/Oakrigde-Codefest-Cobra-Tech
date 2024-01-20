@@ -3,6 +3,36 @@ from striprtf.striprtf import rtf_to_text
 with open("Document.rtf") as infile:
     content = infile.read()
     text = rtf_to_text(content)
+
+text = text.split()
+text.pop()
+
+'''variables'''
+groceryrep = 0
+entertainmentrep = 0
+foodrep = 0
+miscellanousrep = 0
+electronicrep =0
+homerep = 0
+repairsrep = 0
+
+grocerycost = 0
+foodcost = 0
+entertainmentcost = 0
+electroniccost = 0
+home_improvementcost = 0
+miscellanouscost = 0
+repairscost = 0
+
+grocerydate = []
+fooddate = []
+entertainmentdate = []
+miscellanousdate = []
+electronicdate = []
+home_improvementdate = []
+repairsdate = []
+'''dictionaries'''
+
 repairs = ['UrbanClap', 'plumb', 'mechanic', 'fix', 'carpent', 'repairs']
 movies = ['PVR', 'INOX', 'CarnivalCinemas', 'Cinepolis', 'Miraj']
 transport = ['Ola', 'Uber', 'Nammayatri', 'Makemytrip', 'Booking', 'Indigo', 'airlines']
@@ -11,40 +41,15 @@ grocery = ['Blinkit', 'mart', 'fruit', 'vegetable', '1mg', 'palmolive']
 food = ['Swiggy', 'Zomato', 'PandaExpress', 'Ubereats', 'Grubhub', 'Doordash', 'Dominos', 'Pizzahut']
 entertainment = ['PVR', 'BookMyShow', 'Netflix', 'Disney', 'Hotstar', 'Amazonprime', 'Voot', 'JioLiv', 'Sonyliv', 'Youtube']
 electronic = ['Reliance', 'Croma', 'Sony', 'digital', 'phone', 'electronics', 'electronic', 'realme', 'readme', 'samsung', 'apple', 'HP', 'microsoft', 'casio', 'nokia']
-homeimprovement= ['sofasandmore', 'stanleys', 'toyota', 'mercedes', 'audi','BMW', 'skoda', 'volkswagen', 'cars', 'sofas', 'durian']
-
-repairrep = 0
-movierep = 0
-transportrep = 0
-insurancerep = 0
-foodrep = 0
-groceryrep = 0
-entertainmentrep = 0
-electronicrep = 0
-homeimprovementrep = 0
-miscellanousrep = 0
-
-totalrepairs = 0
-totalmovie = 0
-totaltransport = 0
-totalinsurance = 0
-totalfood = 0
-totalgrocery = 0
-totalentertainment = 0
-totalelectronic = 0
-totalhomeimprovement = 0
-totalmiscellanous = 0
-
-text = text.split()
-text.pop()
-print(text)
+home_improvement = ['sofasandmore', 'stanleys', 'toyota', 'mercedes', 'audi','BMW', 'skoda', 'volkswagen', 'cars', 'sofas', 'durian']
 
 while text != []:
-    current_file_name = text[0:1]
-    current_file_cost = text[0]
-    print(current_file_name[0])
-    word = ''
-    text.remove(current_file_cost[0])
+    WORKING_WITH_name = list(text[0:1])
+    WORKING_WITH_cost = text[0]
+    text.pop(0)
+    print(WORKING_WITH_name)
+    counter = 0
+    recheck = 0
     def check(groceryrep, foodrep, entertainmentrep, miscellanousrep, electronicrep, homerep, grocerycost, foodcost, entertainmentcost, miscellanouscost, electroniccost, homeimprovementcost, grocerydate, fooddate, entertainmentdate, miscellanousdate, electronicdate, home_improvementdate, word):
         print('STARTING CHECK')
         found = 0
@@ -53,7 +58,7 @@ while text != []:
         z = 0
         cost = ''
         list = []
-        for i in current_file_cost:
+        for i in WORKING_WITH_cost:
             list.append(i)
         while list[z + 2] != '/':
             list.remove(list[z])
@@ -64,13 +69,13 @@ while text != []:
             else:
                 date += i
         print(word)
-        for i in current_file_cost:
+        for i in WORKING_WITH_cost:
             y += 1
             for j in i:
                 if j == '₹':
-                    while current_file_cost[y] != '-':
-                        print(current_file_cost[y])
-                        cost += current_file_cost[y]
+                    while WORKING_WITH_cost[y] != '-':
+                        print(WORKING_WITH_cost[y])
+                        cost += WORKING_WITH_cost[y]
                         y += 1
 
         print(cost)
@@ -113,7 +118,7 @@ while text != []:
                     electronicdate.append(cost)
                     found = 1
 
-        for i in homeimprovement:
+        for i in home_improvement:
             if found != 1:
                 if word.find(i) != -1:
                     print(i, word)
@@ -121,6 +126,15 @@ while text != []:
                     homeimprovementcost += int(cost)
                     home_improvementdate.append(cost)
                     found = 1
+        #
+        # for i in repairs:
+        #     if found != 1:
+        #         if word.find(i)!= -1:
+        #             print(i, word)
+        #             repairsrep += 1
+        #             repairscost += int(cost)
+        #             repairsdate.append(cost)
+
 
         if found != 1:
             miscellanousrep += 1
@@ -129,15 +143,26 @@ while text != []:
 
 
         return groceryrep, foodrep, entertainmentrep,  miscellanousrep, electronicrep, homerep, grocerycost, foodcost, entertainmentcost, miscellanouscost, electroniccost, homeimprovementcost, grocerydate, fooddate, entertainmentdate, miscellanousdate, electronicdate, home_improvementdate
-    print(current_file_name)
-    for i in current_file_name:
+
+    for i in WORKING_WITH_name:
+        word = ''
+        counter = 0
         for j in i:
-            if j != '-' and j != '.':
+            if j != '.' and j != '-':
                 word += j
+                counter += 1
             else:
                 break
-        print(word)
+        groceryrep, foodrep, entertainmentrep, miscellanousrep, electronicrep, homerep, grocerycost, foodcost, entertainmentcost,miscellanouscost, electroniccost, home_improvementcost, grocerydate, fooddate, entertainmentdate, miscellanousdate, electronicdate, home_improvementdate = check(groceryrep, foodrep, entertainmentrep, miscellanousrep,electronicrep, homerep,grocerycost,foodcost,entertainmentcost,miscellanouscost,electroniccost,home_improvementcost, grocerydate, fooddate, entertainmentdate, miscellanousdate, electronicdate, home_improvementdate, word)
+        print(groceryrep, foodrep, entertainmentrep, miscellanousrep)
 
-    repairrep, movierep, transportrep, insurancerep, groceryrep, foodrep, entertainmentrep, electronicrep, homeimprovementrep, miscellanousrep   = check(word)
-    print(repairrep, movierep, transportrep, insurancerep, foodrep, entertainmentrep, electronicrep, homeimprovementrep)
-    print(totalfood, totalmovie, totalgrocery, totalrepairs, totalinsurance, totalinsurance, totaltransport, totalhomeimprovement, totalentertainment, totalmiscellanous)
+
+print('name', 'Food', foodrep, 'Grocery', groceryrep, 'Entertainment', entertainmentrep, 'Miscellanous', miscellanousrep, 'Electronic', electronicrep, 'Home Improvement', homerep)
+print('cost', 'Food ', foodcost, 'Grocery', grocerycost, 'Entertainement', entertainmentcost, 'Miscellanous', miscellanouscost, 'Electronic', electroniccost, 'Home improvement', home_improvementcost)
+print('Dates')
+print('food', fooddate)
+print('grocery', grocerydate)
+print('entertainment', entertainmentdate)
+print('miscellanous', miscellanousdate)
+print('electronics', electronicdate)
+print('Home improvement', home_improvementdate  )
