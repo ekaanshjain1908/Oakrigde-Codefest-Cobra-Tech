@@ -1,12 +1,11 @@
 import PySimpleGUI as sg
-"""
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-These libraries will be used later on.
-"""
 
+count = {'Food': 2, 'Grocery': 10, 'Entertainment': 4, 'Miscellaneous': 10, 'Electronic': 1, 'Home Improvement': 3}
+costs = {'Food': 2024, 'Grocery': 11603, 'Entertainment': 4954, 'Miscellaneous': 64997, 'Electronic': 355992, 'Home Improvement': 332696}
 
-sg.LOOK_AND_FEEL_TABLE['MyCreatedTheme'] = {'BACKGROUND': '#000000',
+sg.LOOK_AND_FEEL_TABLE['MyTheme'] = {'BACKGROUND': '#000000',
                                             'TEXT': '#FF0000',
                                             'INPUT': '#4A4A4A',
                                             'TEXT_INPUT': '#E3242B',
@@ -20,13 +19,45 @@ layout_window1 = [
     [sg.Text("Enter your current Salary:"), sg.InputText(key='input_text')],
     [sg.Text("Note: in a real application the user need not enter this ")],
     [sg.Text("Please fill your expected expenditure for the following categories:")],
-    [sg.Text("Repairs"), sg.InputText(key='repair')],
-    [sg.Text("Movies"), sg.InputText(key='movies')],
-    [sg.Text("Transport"), sg.InputText(key='transport')],
-    [sg.Text("Insurance"), sg.InputText(key='insurance')],
-    [sg.Text("Food"), sg.InputText(key='food')],
-    [sg.Text("Grocery"), sg.InputText(key='grocery')],
-    [sg.Text("Entertainment"), sg.InputText(key='entertainment')],
-    [sg.Text("Electronic"), sg.InputText(key='electronic')],
+    [sg.Text("Repairs                "), sg.InputText(key='repair')],
+    [sg.Text("Movies                 "), sg.InputText(key='movies')],
+    [sg.Text("Transport             "), sg.InputText(key='transport')],
+    [sg.Text("Insurance             "), sg.InputText(key='insurance')],
+    [sg.Text("Food                    "), sg.InputText(key='food')],
+    [sg.Text("Grocery               "), sg.InputText(key='grocery')],
+    [sg.Text("Entertainment       "), sg.InputText(key='entertainment')],
+    [sg.Text("Electronic              "), sg.InputText(key='electronic')],
     [sg.Text("Home Improvement"), sg.InputText(key='home')],
+    [sg.Button("Next")]
 ]
+
+layout_window2 = [
+    [sg.Canvas(key='canvas')],
+]
+
+window1 = sg.Window('Window 1', layout_window1)
+
+while True:
+    event1, values1 = window1.read()
+
+    if event1 == sg.WINDOW_CLOSED:
+        break
+    elif event1 == 'Next':
+        window1.close()
+        fig, ax = plt.subplots()
+        ax.plot(list(count.values()), label="count")
+        ax.plot(list(costs.values()), label="costs")
+        ax.legend()
+        canvas = FigureCanvasTkAgg(fig, master=window1)
+        canvas.draw()
+        canvas.get_tk_widget().pack(side='top', fill='both', expand=1)
+        window2 = sg.Window('Window 2', layout_window2, finalize=True, resizable=True, location=(window1.current_location()[0], window1.current_location()[1]))
+        break
+
+while True:
+    event2, values2 = window2.read()
+
+    if event2 == sg.WINDOW_CLOSED:
+        break
+
+window2.close()
