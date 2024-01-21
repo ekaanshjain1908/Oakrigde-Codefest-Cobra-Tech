@@ -300,21 +300,17 @@ while text:
             current_file_Cost, foodTimes, groceryTimes, entertainmentTimes, miscellanousTimes, electronicTimes,
             home_improvementTimes, repairsTimes, transportTimes, insuranceTimes, Times, dailysum)
 
-for i in range(1, 21*5):
-    dailysum.remove(dailysum[i])
-for i in range(1,5):
-    totaldailysum += int(dailysum[i][0])
-print(totaldailysum)
 
 
 # Data from backend
 
-Yearly = {'Food': foodCost, 'Grocery': groceryCost, 'Entertainment': entertainmentCost, 'Miscellaneous': , 'Electronic': 355992,
-          'Home Improvement': 332696}
+Yearly = {'Food': foodCost, 'Grocery': groceryCost, 'Entertainment': entertainmentCost, 'Miscellaneous': miscellanousCost , 'Electronic': electronicCost,
+          'Home Improvement': home_improvementCost}
 Monthly = {'Week 1': week1, 'Week 2': week2, 'Week 3': week3, 'Week 4': week4}
-Weekly = {'Mon': 51, 'Tue': 2, 'Wed': 3, 'Thu': 4, 'Fri': 5, 'Sat': 6, 'Sun': 7}
+Weekly = {'Mon': dailysumd[0:5] , 'Tue': dailysumd[5:10], 'Wed': dailysumd[10:15], 'Thu': dailysumd[15:20], 'Fri': dailysumd[20:25], 'Sat': dailysumd[25:30], 'Sun': dailysumd[30:35]}
 salary_value = ''
 avg_monthly_expenditure = 0
+texts =''
 
 
 # Line graphs for window 2
@@ -353,15 +349,14 @@ img_line4_data.seek(0)
 
 # Bar Graph for window 3
 
-fig2, ax2 = plt.subplots()
+
 fig3, ax3 = plt.subplots()
 fig4, ax4 = plt.subplots()
 
-
-
-ax2.bar(Weekly.keys(), Weekly.values(), color='orange')
+fig2, ax2 = plt.subplots()
+ax2.bar(Weekly.keys(), labels = Weekly.values(), color='blue')
 ax2.set_title('Year')
-ax2.set_ylabel('Cost')
+ax2.set_ylabel('cost')
 ax2.yaxis.set_major_formatter('₹{x:,.0f}')
 
 ax3.bar(Monthly.keys(), Monthly.values(), color='green')
@@ -448,10 +443,10 @@ layout_window1 = [
 ]
 
 layout_window2 = [
-    [sg.Button('Day', key='l_graph1', size=(30, 4)), sg.Button('Month', key='l_graph3', size=(30, 4)),
+    [sg.Button('Month', key='l_graph3', size=(30, 4)),
      sg.Button('Year', key='l_graph2', size=(30, 4)),
      sg.Button('Week', key='l_graph4', size=(30, 4))],
-    [sg.Image(data=img_line1_data.getvalue(), key='canvas_line1'), sg.Image(data=img_line2_data.getvalue(),
+    [sg.Image(data=img_line2_data.getvalue(),
                                                                             key='canvas_line2'),
      sg.Image(data=img_line3_data.getvalue(), key='canvas_line3'), sg.Image(data=img_line4_data.getvalue(),
                                                                             key='canvas_line4')],
@@ -459,19 +454,19 @@ layout_window2 = [
 ]
 
 layout_window3 = [
-    [sg.Button('Day', key='b_graph1', size=(30, 4)), sg.Button('Month', key='b_graph3', size=(30, 4)),
+    [sg.Button('Month', key='b_graph3', size=(30, 4)),
      sg.Button('Year', key='b_graph2', size=(30, 4)),
      sg.Button('Week', key='b_graph4', size=(30, 4))],
-    [sg.Image(data=img1_data.getvalue(), key='canvas1'), sg.Image(data=img2_data.getvalue(), key='canvas2'),
+    [sg.Image(data=img2_data.getvalue(), key='canvas2'),
      sg.Image(data=img3_data.getvalue(), key='canvas3'), sg.Image(data=img4_data.getvalue(), key='canvas4')],
     [sg.Button('Previous', size=(30, 4)), sg.Button('Next', size=(30, 4))],
 ]
 
 layout_window4 = [
-    [sg.Button('Day', key='p_graph1', size=(30, 4)), sg.Button('Month', key='p_graph3', size=(30, 4)),
+    [sg.Button('Month', key='p_graph3', size=(30, 4)),
      sg.Button('Year', key='p_graph2', size=(30, 4)),
      sg.Button('Week', key='p_graph4', size=(30, 4))],
-    [sg.Image(data=img_pie1_data.getvalue(), key='canvas_pie1'), sg.Image(data=img_pie2_data.getvalue(),
+    [sg.Image(data=img_pie2_data.getvalue(),
                                                                           key='canvas_pie2'),
      sg.Image(data=img_pie3_data.getvalue(), key='canvas_pie3'), sg.Image(data=img_pie4_data.getvalue(),
                                                                           key='canvas_pie4')],
@@ -479,13 +474,14 @@ layout_window4 = [
 ]
 
 layout_window5 = [
-    [sg.Button('Day', key='day_5', size=(30, 4)),
+    [
      sg.Button('Week', key='week_5', size=(30, 4)),
      sg.Button('Month', key='month_5', size=(30, 4)),
      sg.Button('Year', key='year_5', size=(30, 4)),
      sg.Button('Show Graphs', key='show_graphs', size=(30, 4))],
     [sg.Text("Your current salary: "), sg.Text(key='output_text'),
-     sg.Text(f"While your average monthly expenditure is: {avg_monthly_expenditure}")]
+     sg.Text(f"While your average monthly expenditure is: {avg_monthly_expenditure}")],
+    [sg.Text(texts)]
 ]
 
 #Windows
@@ -572,8 +568,7 @@ while True:
         window2['canvas_line2'].update(data="")
         window2['canvas_line3'].update(data="")
         window2['canvas_line4'].update(data="")
-        img_line1_data.seek(0)
-        window2['canvas_line1'].update(data=img_line1_data.getvalue())
+
 
     if event == 'l_graph2':
         window2['canvas_line1'].update(data="")
@@ -600,8 +595,7 @@ while True:
         window3['canvas2'].update(data="")
         window3['canvas3'].update(data="")
         window3['canvas4'].update(data="")
-        img1_data.seek(0)
-        window3['canvas1'].update(data=img1_data.getvalue())
+
 
     if event == 'b_graph2':
         window3['canvas1'].update(data="")
@@ -628,8 +622,7 @@ while True:
         window4['canvas_pie2'].update(data="")
         window4['canvas_pie3'].update(data="")
         window4['canvas_pie4'].update(data="")
-        img_pie1_data.seek(0)
-        window4['canvas_pie1'].update(data=img_pie1_data.getvalue())
+
 
     if event == 'p_graph2':
         window4['canvas_pie1'].update(data="")
@@ -677,6 +670,30 @@ while True:
     if window == window5 and event == 'Update Output':
         input_text = values.get('input_text', '')
         window5['output_text'].update(input_text)
+
+        if event == 'week_5':
+            if int(input_text) / 4 > int(avg_monthly_expenditure) / 4:
+                texts = ('The net savings is:', int(input_text / 4) - int(avg_monthly_expenditure // 4))
+            elif int(input_text) / 4 == int(avg_monthly_expenditure) / 4:
+                texts = ('No net savings')
+            else:
+                texts = ('The net savings is:', int(salary_value) / 4 - int(avg_monthly_expenditure) / 4)
+
+        if event == 'month_5':
+            if int(input_text) > int(avg_monthly_expenditure):
+                texts = ('The net savings is:', int(input_text) - int(avg_monthly_expenditure))
+            elif int(input_text) == int(avg_monthly_expenditure):
+               texts = ('No net savings')
+            else:
+                texts = ('The net savings is:', int(input_text) - int(avg_monthly_expenditure))
+
+        if event == 'year_5':
+            if int(input_text*12) > int(avg_monthly_expenditure*12):
+                texts = ('The net savings is:', int(input_text*12) - int(avg_monthly_expenditure*12))
+            elif int(input_text*12) == int(avg_monthly_expenditure*12):
+                [sg.Text('No net savings')]
+            else:
+                [sg.Text('The net savings is:', int(salary_value/12) - int(avg_monthly_expenditure*12))]
 
 
 window1.close()
