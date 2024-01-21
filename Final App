@@ -1,0 +1,686 @@
+from striprtf.striprtf import rtf_to_text
+import PySimpleGUI as sg
+import matplotlib.pyplot as plt
+import io
+from PIL import Image
+import numpy as np  # added to fix NameError: name 'np' is not defined
+import calendar  # added to fix NameError: name 'calendar' is not defined
+with open("Document.rtf") as infile:
+    content = infile.read()
+    text = rtf_to_text(content)
+
+text = text.split()
+text.pop()
+
+'''variables'''
+groceryRepeat = 0
+entertainmentRepeat = 0
+foodRepeat = 0
+miscellanousRepeat = 0
+electronicRepeat = 0
+homeRepeat = 0
+repairsRepeat = 0
+moviesRepeat = 0
+transportRepeat = 0
+insuranceRepeat = 0
+totaldailysum = 0
+
+groceryCost = 0
+foodCost = 0
+entertainmentCost = 0
+electronicCost = 0
+home_improvementCost = 0
+miscellanousCost = 0
+repairsCost = 0
+moviesCost = 0
+transportCost = 0
+insuranceCost = 0
+
+fooddaily = 0
+grocerydaily = 0
+entertainmentdaily = 0
+miscellanousdaily = 0
+electronicdaily = 0
+homeimprovementdaily = 0
+repairdaily = 0
+transportdaily = 0
+moviesdaily = 0
+insurancedaily = 0
+
+week1 = 0
+week2 = 0
+week3 = 0
+week4 = 0
+week5 = 0
+
+'''Lists'''
+groceryCostLIST = []
+foodCostLIST = []
+entertainmentCostLIST = []
+miscellanousCostLIST = []
+electronicCostLIST = []
+home_improvementCostLIST = []
+repairsCostLIST = []
+moviesCostLIST = []
+transportCostLIST = []
+insuranceCostLIST = []
+movieCostLIST = []
+
+groceryDates = []
+foodDates = []
+entertainmentDates = []
+miscellanousDates = []
+electronicDates = []
+home_improvementDates = []
+repairsDates = []
+moviesDates = []
+transportDates = []
+insuranceDates = []
+Dates = []
+
+
+dailysum = []
+
+
+Times = []
+foodTimes = []
+groceryTimes = []
+entertainmentTimes = []
+miscellanousTimes = []
+electronicTimes = []
+home_improvementTimes = []
+repairsTimes = []
+moviesTimes = []
+transportTimes = []
+insuranceTimes = []
+
+'''dictionaries'''
+Repairs = ['UrbanClap', 'plumb', 'mechanic', 'fix', 'carpent', 'Repeatairs']
+movies = ['PVR', 'INOX', 'CarnivalCinemas', 'Cinepolis', 'Miraj']
+transport = ['Ola', 'Uber', 'Nammayatri', 'Makemytrip', 'Booking', 'Indigo', 'airlines']
+insurance = ['LIC', 'HDFClife', 'Maxlife', 'RelianceNippon', 'Sahara', 'Canara', 'Indiafirst', 'Acko', 'Cigna', 'digit',
+             'generali', 'magma']
+grocery = ['Blinkit', 'mart', 'fruit', 'vegetable', '1mg', 'palmolive']
+food = ['Swiggy', 'Zomato', 'PandaExpress', 'Ubereats', 'Grubhub', 'Doordash', 'Dominos', 'Pizzahut']
+entertainment = ['PVR', 'BookMyShow', 'Netflix', 'Disney', 'Hotstar', 'Amazonprime', 'Voot', 'JioLiv', 'Sonyliv',
+                 'Youtube']
+electronic = ['Reliance', 'Croma', 'Sony', 'digital', 'phone', 'electronics', 'electronic', 'realme', 'readme',
+              'samsung', 'apple', 'HP', 'microsoft', 'casio', 'nokia']
+home_improvement = ['sofasandmore', 'stanleys', 'toyota', 'mercedes', 'audi', 'BMW', 'skoda', 'volkswagen', 'cars',
+                    'sofas', 'durian']
+
+while text:
+    current_file_name = list(text[0:1])
+    current_file_Cost = text[0]
+    text.pop(0)
+    print(current_file_name)
+    counter = 0
+    recheck = 0
+
+
+    def check(groceryRepeat, foodRepeat, entertainmentRepeat, miscellanousRepeat, electronicRepeat, homeRepeat, repairsRepeat, transportRepeat, insuranceRepeat, groceryCost, foodCost,
+              entertainmentCost, miscellanousCost, electronicCost, homeimprovementCost, repairsCost, transportCost, insuranceCost, groceryCostLIST, foodCostLIST,
+              entertainmentCostLIST, miscellanousCostLIST, electronicCostLIST, home_improvementCostLIST, repairsCostLIST, transportCostLIST, insuranceCostLIST, foodDates, groceryDates,
+              entertainmentDates, miscellanousDates, electronicDates, home_improvementDates,repairsDates, transportDates, insuranceDates, week1, week2, week3, week4, week5, word,
+              current_file_Cost, foodtimes, grocerytimes, entertainmenttimes, miscellanoustimes, electronicTimes, home_improvement_Times,repairsTimes, transportTimes, insuranceTimes, Times, dailysum):
+        print('STARTING CHECK')
+        found = 0
+        date = ''
+        y = 0
+        z = 0
+        n = 0
+        Cost = ''
+        list_date = []
+        list_time = []
+
+
+
+        for i in current_file_Cost:
+            list_date.append(i)
+        while list_date[z + 2] != '/':
+            list_date.remove(list_date[z])
+
+        for i in current_file_Cost:
+            list_time.append(i)
+
+        for i in list_date:
+            if i == '-':
+                break
+            else:
+                date += i
+
+        for i in current_file_Cost:
+            y += 1
+            for j in i:
+                if j == '₹':
+                    while current_file_Cost[y] != '-':
+                        Cost += current_file_Cost[y]
+                        y += 1
+        current_file_Cost += '-'
+        print(current_file_Cost)
+        time = current_file_Cost[-6:-1]
+        Times.append(time)
+
+        for i in grocery:
+            if word.find(i) != -1:
+                groceryRepeat += 1
+                groceryCost += int(Cost)
+                groceryCostLIST.append(Cost)
+                groceryDates.append(date)
+                Dates.append(date)
+                grocerytimes.append(time)
+                found = 1
+
+        for i in food:
+            if found != 1:
+                if word.find(i) != -1:
+                    foodRepeat += 1
+                    foodCost += int(Cost)
+                    foodCostLIST.append(Cost)
+                    foodDates.append(date)
+                    Dates.append(date)
+                    foodtimes.append(time)
+                    found = 1
+
+        for i in entertainment:
+            if found != 1:
+                if word.find(i) != -1:
+                    entertainmentRepeat += 1
+                    entertainmentCost += int(Cost)
+                    entertainmentCostLIST.append(Cost)
+                    entertainmentDates.append(date)
+                    Dates.append(date)
+                    entertainmenttimes.append(time)
+                    found = 1
+
+        for i in electronic:
+            if found != 1:
+                if word.find(i) != -1:
+                    electronicRepeat += 1
+                    electronicCost += int(Cost)
+                    electronicCostLIST.append(Cost)
+                    electronicDates.append(date)
+                    electronicTimes.append(time)
+                    Dates.append(date)
+                    found = 1
+
+        for i in home_improvement:
+            if found != 1:
+                if word.find(i) != -1:
+                    homeRepeat += 1
+                    homeimprovementCost += int(Cost)
+                    home_improvementCostLIST.append(Cost)
+                    home_improvementDates.append(date)
+                    home_improvement_Times.append(time)
+                    Dates.append(date)
+                    found = 1
+
+        for i in Repairs:
+            if found != 1:
+                if word.find(i) != -1:
+                    repairsRepeat += 1
+                    repairsCost += int(Cost)
+                    repairsCostLIST.append(Cost)
+                    repairsDates.append(date)
+                    repairsTimes.append(time)
+                    Dates.append(date)
+                    found = 1
+
+        for i in transport:
+            if found != 1:
+                if word.find(i) != -1:
+                    transportRepeat += 1
+                    transportCost += int(Cost)
+                    transportCostLIST.append(Cost)
+                    transportDates.append(date)
+                    transportTimes.append(time)
+                    Dates.append(date)
+                    found = 1
+
+
+        for i in insurance:
+            if found != 1:
+                if word.find(i) != -1:
+                    insuranceRepeat += 1
+                    insuranceCost += int(Cost)
+                    insuranceCostLIST.append(Cost)
+                    insuranceDates.append(date)
+                    insuranceTimes.append(time)
+                    Dates.append(date)
+                    found = 1
+
+
+        if found != 1:
+            miscellanousRepeat += 1
+            miscellanousCost += int(Cost)
+            miscellanousCostLIST.append(Cost)
+            miscellanousDates.append(date)
+            miscellanoustimes.append(time)
+            Dates.append(date)
+
+        x = int(date[0:2])
+        y = int(date[3:5])
+        if y == 1:
+            if x <= 7:
+                week1 += int(Cost)
+            if x <= 14 and x >= 7:
+                week2 += int(Cost)
+            if x <= 21 and x >= 14:
+                week3 += int(Cost)
+            if x <= 28 and x >= 21:
+                week4 += int(Cost)
+            if x <= 30 and x >= 28:
+                week5 += int(Cost)
+
+
+
+
+        return groceryRepeat, foodRepeat, entertainmentRepeat, miscellanousRepeat, electronicRepeat, homeRepeat, repairsRepeat, transportRepeat, insuranceRepeat, groceryCost, foodCost, entertainmentCost, miscellanousCost, electronicCost, homeimprovementCost, repairsCost, transportCost, insuranceCost, groceryCostLIST, foodCostLIST, entertainmentCostLIST, miscellanousCostLIST, electronicCostLIST, home_improvementCostLIST, repairsCostLIST, transportCostLIST, insuranceCostLIST, foodDates, groceryDates, entertainmentDates, miscellanousDates, electronicDates, home_improvementDates, repairsDates, transportDates, insuranceDates, Dates, week1, week2, week3, week4, week5, Times, foodTimes, groceryTimes, entertainmentTimes, miscellanousTimes, electronicTimes,home_improvement_Times, repairsTimes, transportTimes, insuranceTimes, dailysum
+
+
+    for i in current_file_name:
+        word = ''
+        counter = 0
+        for j in i:
+            if j != '.' and j != '-':
+                word += j
+                counter += 1
+            else:
+                break
+
+        groceryRepeat, foodRepeat, entertainmentRepeat, miscellanousRepeat, electronicRepeat, homeRepeat, repairsRepeat, transportRepeat, insuranceRepeat, groceryCost, foodCost, entertainmentCost, miscellanousCost, electronicCost, homeimprovementCost, repairsCost, transportCost, insuranceCost, groceryCostLIST, foodCostLIST, entertainmentCostLIST, miscellanousCostLIST, electronicCostLIST, home_improvementCostLIST, repairsCostLIST, transportCostLIST, insuranceCostLIST, foodDates, groceryDates, entertainmentDates, miscellanousDates, electronicDates, home_improvementDates, repairsDates, transportDates, insuranceDates, Dates, week1, week2, week3, week4, week5, Times, foodTimes, groceryTimes, entertainmentTimes, miscellanousTimes, electronicTimes,home_improvement_Times, repairsTimes, transportTimes, insuranceTimes, dailysumd = check(
+            groceryRepeat, foodRepeat, entertainmentRepeat, miscellanousRepeat, electronicRepeat, homeRepeat,
+            repairsRepeat, transportRepeat, insuranceRepeat, groceryCost, foodCost,
+            entertainmentCost, miscellanousCost, electronicCost, home_improvementCost, repairsCost, transportCost,
+            insuranceCost, groceryCostLIST, foodCostLIST,
+            entertainmentCostLIST, miscellanousCostLIST, electronicCostLIST, home_improvementCostLIST, repairsCostLIST,
+            transportCostLIST, insuranceCostLIST, foodDates, groceryDates,
+            entertainmentDates, miscellanousDates, electronicDates, home_improvementDates, repairsDates, transportDates,
+            insuranceDates, week1, week2, week3, week4, week5, word,
+            current_file_Cost, foodTimes, groceryTimes, entertainmentTimes, miscellanousTimes, electronicTimes,
+            home_improvementTimes, repairsTimes, transportTimes, insuranceTimes, Times, dailysum)
+
+for i in range(1, 21*5):
+    dailysum.remove(dailysum[i])
+for i in range(1,5):
+    totaldailysum += int(dailysum[i][0])
+print(totaldailysum)
+
+
+# Data from backend
+
+Yearly = {'Food': foodCost, 'Grocery': groceryCost, 'Entertainment': entertainmentCost, 'Miscellaneous': , 'Electronic': 355992,
+          'Home Improvement': 332696}
+Monthly = {'Week 1': week1, 'Week 2': week2, 'Week 3': week3, 'Week 4': week4}
+Weekly = {'Mon': 51, 'Tue': 2, 'Wed': 3, 'Thu': 4, 'Fri': 5, 'Sat': 6, 'Sun': 7}
+salary_value = ''
+avg_monthly_expenditure = 0
+
+
+# Line graphs for window 2
+
+fig_line2, ax_line2 = plt.subplots()
+ax_line2.plot(Weekly.keys(), Weekly.values(), marker='o', label='Data 2')
+ax_line2.set_title('Yearly')
+ax_line2.set_ylabel('Expenditure')
+ax_line2.legend()
+
+fig_line3, ax_line3 = plt.subplots()
+ax_line3.plot(Monthly.keys(), Monthly.values(), marker='o', label='Data 3')
+ax_line3.set_title('Monthly')
+ax_line3.set_ylabel('Expenditure')
+ax_line3.legend()
+
+fig_line4, ax_line4 = plt.subplots()
+ax_line4.plot(Yearly.keys(), Yearly.values(), marker='o', label='Data 4')
+ax_line4.set_title('Weekly')
+ax_line4.set_ylabel('Expenditure')
+ax_line4.legend()
+
+
+
+img_line2_data = io.BytesIO()
+fig_line2.savefig(img_line2_data, format='png')
+img_line2_data.seek(0)
+
+img_line3_data = io.BytesIO()
+fig_line3.savefig(img_line3_data, format='png')
+img_line3_data.seek(0)
+
+img_line4_data = io.BytesIO()
+fig_line4.savefig(img_line4_data, format='png')
+img_line4_data.seek(0)
+
+# Bar Graph for window 3
+
+fig2, ax2 = plt.subplots()
+fig3, ax3 = plt.subplots()
+fig4, ax4 = plt.subplots()
+
+
+
+ax2.bar(Weekly.keys(), Weekly.values(), color='orange')
+ax2.set_title('Year')
+ax2.set_ylabel('Cost')
+ax2.yaxis.set_major_formatter('₹{x:,.0f}')
+
+ax3.bar(Monthly.keys(), Monthly.values(), color='green')
+ax3.set_title('Month')
+ax3.set_ylabel('Cost')
+ax3.yaxis.set_major_formatter('₹{x:,.0f}')
+
+ax4.bar(Yearly.keys(), Yearly.values(), color='purple')
+ax4.set_title('Week')
+ax4.set_ylabel('Cost')
+ax4.yaxis.set_major_formatter('₹{x:,.0f}')
+
+
+img2_data = io.BytesIO()
+fig2.savefig(img2_data, format='png')
+img2_data.seek(0)
+
+img3_data = io.BytesIO()
+fig3.savefig(img3_data, format='png')
+img3_data.seek(0)
+
+img4_data = io.BytesIO()
+fig4.savefig(img4_data, format='png')
+img4_data.seek(0)
+
+# Pie graphs for window 4
+fig_pie2, ax_pie2 = plt.subplots()
+ax_pie2.pie(Weekly.values(), labels=Weekly.keys(), autopct="%1.1f%%")
+plt.title("Weekly")
+plt.axis("equal")
+ax_pie2.legend()
+
+fig_pie3, ax_pie3 = plt.subplots()
+ax_pie3.pie(Monthly.values(), labels=Monthly, autopct="%1.1f%%")
+plt.axis("equal")
+ax_pie3.legend()
+
+fig_pie4, ax_pie4 = plt.subplots()
+ax_pie4.pie(Yearly.values(), labels=Yearly.keys(), autopct="%1.1f%%")
+plt.title("Yearly")
+plt.axis("equal")
+ax_pie4.legend()
+
+img_pie2_data = io.BytesIO()
+fig_pie2.savefig(img_pie2_data, format='png')
+img_pie2_data.seek(0)
+
+img_pie3_data = io.BytesIO()
+fig_pie3.savefig(img_pie3_data, format='png')
+img_pie3_data.seek(0)
+
+img_pie4_data = io.BytesIO()
+fig_pie4.savefig(img_pie4_data, format='png')
+img_pie4_data.seek(0)
+
+# Custom Theme
+sg.LOOK_AND_FEEL_TABLE['MyTheme'] = {'BACKGROUND': '#000000',
+                                      'TEXT': '#82CAFF',
+                                      'INPUT': '#E6E6E6',
+                                      'TEXT_INPUT': '#282130',
+                                      'SCROLL': '#414a4c',
+                                      'BUTTON': ('#6D6D6D', '#123456'),
+                                      'PROGRESS': ('#D1826B', '#CC8019'),
+                                      'BORDER': 1, 'SLIDER_DEPTH': 0,
+                                      'PROGRESS_DEPTH': 0}
+
+sg.theme('MyTheme')
+
+
+layout_window1 = [
+    [sg.Text("Enter your current Salary:"), sg.InputText(size=(30, 4), key='input_text')],
+    [sg.Text("Note: in a real application, the user need not enter this ")],
+    [sg.Text("Please fill your expected expenditure for the following categories:")],
+    [sg.Text("Repairs"), sg.InputText(size=(30, 4), key='repair')],
+    [sg.Text("Movies"), sg.InputText(size=(30, 4), key='movies')],
+    [sg.Text("Transport"), sg.InputText(size=(30, 4), key='transport')],
+    [sg.Text("Insurance"), sg.InputText(size=(30, 4), key='insurance')],
+    [sg.Text("Food"), sg.InputText(size=(30, 4), key='food')],
+    [sg.Text("Grocery"), sg.InputText(size=(30, 4), key='grocery')],
+    [sg.Text("Entertainment"), sg.InputText(size=(30, 4), key='entertainment')],
+    [sg.Text("Electronic"), sg.InputText(size=(30, 4), key='electronic')],
+    [sg.Text("Home Improvement"), sg.InputText(size=(30, 4), key='home')],
+    [sg.Button('Next', size=(30, 4))]
+]
+
+layout_window2 = [
+    [sg.Button('Day', key='l_graph1', size=(30, 4)), sg.Button('Month', key='l_graph3', size=(30, 4)),
+     sg.Button('Year', key='l_graph2', size=(30, 4)),
+     sg.Button('Week', key='l_graph4', size=(30, 4))],
+    [sg.Image(data=img_line1_data.getvalue(), key='canvas_line1'), sg.Image(data=img_line2_data.getvalue(),
+                                                                            key='canvas_line2'),
+     sg.Image(data=img_line3_data.getvalue(), key='canvas_line3'), sg.Image(data=img_line4_data.getvalue(),
+                                                                            key='canvas_line4')],
+    [sg.Button('Previous', size=(30, 4)), sg.Button('Next', size=(30, 4))],
+]
+
+layout_window3 = [
+    [sg.Button('Day', key='b_graph1', size=(30, 4)), sg.Button('Month', key='b_graph3', size=(30, 4)),
+     sg.Button('Year', key='b_graph2', size=(30, 4)),
+     sg.Button('Week', key='b_graph4', size=(30, 4))],
+    [sg.Image(data=img1_data.getvalue(), key='canvas1'), sg.Image(data=img2_data.getvalue(), key='canvas2'),
+     sg.Image(data=img3_data.getvalue(), key='canvas3'), sg.Image(data=img4_data.getvalue(), key='canvas4')],
+    [sg.Button('Previous', size=(30, 4)), sg.Button('Next', size=(30, 4))],
+]
+
+layout_window4 = [
+    [sg.Button('Day', key='p_graph1', size=(30, 4)), sg.Button('Month', key='p_graph3', size=(30, 4)),
+     sg.Button('Year', key='p_graph2', size=(30, 4)),
+     sg.Button('Week', key='p_graph4', size=(30, 4))],
+    [sg.Image(data=img_pie1_data.getvalue(), key='canvas_pie1'), sg.Image(data=img_pie2_data.getvalue(),
+                                                                          key='canvas_pie2'),
+     sg.Image(data=img_pie3_data.getvalue(), key='canvas_pie3'), sg.Image(data=img_pie4_data.getvalue(),
+                                                                          key='canvas_pie4')],
+    [sg.Button('Previous', size=(30, 4)), sg.Button('Insights', size=(30, 4))],
+]
+
+layout_window5 = [
+    [sg.Button('Day', key='day_5', size=(30, 4)),
+     sg.Button('Week', key='week_5', size=(30, 4)),
+     sg.Button('Month', key='month_5', size=(30, 4)),
+     sg.Button('Year', key='year_5', size=(30, 4)),
+     sg.Button('Show Graphs', key='show_graphs', size=(30, 4))],
+    [sg.Text("Your current salary: "), sg.Text(key='output_text'),
+     sg.Text(f"While your average monthly expenditure is: {avg_monthly_expenditure}")]
+]
+
+#Windows
+window1 = sg.Window('Welcome to cobra tech',
+                    layout=layout_window1,
+                    resizable=True,
+                    element_justification='c',
+                    location=(10, 300),
+                    ).finalize()
+
+window2 = sg.Window('Line Graphs',
+                    layout=layout_window2,
+                    resizable=True,
+                    element_justification='c',
+                    location=(10, 300),
+                    ).finalize()
+
+window3 = sg.Window('Bar Graphs',
+                    layout=layout_window3,
+                    resizable=True,
+                    element_justification='c',
+                    location=(10, 300),
+                    ).finalize()
+
+window4 = sg.Window('Pie Graphs',
+                    layout=layout_window4,
+                    resizable=True,
+                    element_justification='c',
+                    location=(10, 300),
+                    ).finalize()
+window5 = sg.Window('Savings vs Expenditure',
+                    layout=layout_window5,
+                    resizable=True,
+                    element_justification='c',
+                    location=(10, 300),
+                    ).finalize()
+
+# Maximize the windows to achieve fullscreen behavior
+window1.Maximize()
+window2.Maximize()
+window3.Maximize()
+window4.Maximize()
+window5.Maximize()
+
+window2.hide()
+window3.hide()
+window4.hide()
+window5.hide()
+
+windows = [window1, window2, window3, window4]
+current_window_index = 0
+
+# Hides the graphs
+window2['canvas_line1'].update(data="")
+window2['canvas_line2'].update(data="")
+window2['canvas_line3'].update(data="")
+window2['canvas_line4'].update(data="")
+
+window3['canvas1'].update(data="")
+window3['canvas2'].update(data="")
+window3['canvas3'].update(data="")
+window3['canvas4'].update(data="")
+
+window4['canvas_pie1'].update(data="")
+window4['canvas_pie2'].update(data="")
+window4['canvas_pie3'].update(data="")
+window4['canvas_pie4'].update(data="")
+
+def main():
+    windows = [create_window(i) for i in range(1, 7)]
+    current_window_index = 0
+
+
+
+while True:
+    window, event, values = sg.read_all_windows()
+    window.Maximize()
+
+    if event == sg.WIN_CLOSED:
+        break
+
+    #All the graphs
+    if event == 'l_graph1':
+        window2['canvas_line2'].update(data="")
+        window2['canvas_line3'].update(data="")
+        window2['canvas_line4'].update(data="")
+        img_line1_data.seek(0)
+        window2['canvas_line1'].update(data=img_line1_data.getvalue())
+
+    if event == 'l_graph2':
+        window2['canvas_line1'].update(data="")
+        window2['canvas_line3'].update(data="")
+        window2['canvas_line4'].update(data="")
+        img_line2_data.seek(0)
+        window2['canvas_line2'].update(data=img_line2_data.getvalue())
+
+    if event == 'l_graph3':
+        window2['canvas_line2'].update(data="")
+        window2['canvas_line1'].update(data="")
+        window2['canvas_line4'].update(data="")
+        img_line3_data.seek(0)
+        window2['canvas_line3'].update(data=img_line3_data.getvalue())
+
+    if event == 'l_graph4':
+        window2['canvas_line2'].update(data="")
+        window2['canvas_line3'].update(data="")
+        window2['canvas_line1'].update(data="")
+        img_line4_data.seek(0)
+        window2['canvas_line4'].update(data=img_line4_data.getvalue())
+
+    if event == 'b_graph1':
+        window3['canvas2'].update(data="")
+        window3['canvas3'].update(data="")
+        window3['canvas4'].update(data="")
+        img1_data.seek(0)
+        window3['canvas1'].update(data=img1_data.getvalue())
+
+    if event == 'b_graph2':
+        window3['canvas1'].update(data="")
+        window3['canvas3'].update(data="")
+        window3['canvas4'].update(data="")
+        img2_data.seek(0)
+        window3['canvas2'].update(data=img2_data.getvalue())
+
+    if event == 'b_graph3':
+        window3['canvas2'].update(data="")
+        window3['canvas1'].update(data="")
+        window3['canvas4'].update(data="")
+        img3_data.seek(0)
+        window3['canvas3'].update(data=img3_data.getvalue())
+
+    if event == 'b_graph4':
+        window3['canvas2'].update(data="")
+        window3['canvas3'].update(data="")
+        window3['canvas1'].update(data="")
+        img4_data.seek(0)
+        window3['canvas4'].update(data=img4_data.getvalue())
+
+    if event == 'p_graph1':
+        window4['canvas_pie2'].update(data="")
+        window4['canvas_pie3'].update(data="")
+        window4['canvas_pie4'].update(data="")
+        img_pie1_data.seek(0)
+        window4['canvas_pie1'].update(data=img_pie1_data.getvalue())
+
+    if event == 'p_graph2':
+        window4['canvas_pie1'].update(data="")
+        window4['canvas_pie3'].update(data="")
+        window4['canvas_pie4'].update(data="")
+        img_pie2_data.seek(0)
+        window4['canvas_pie2'].update(data=img_pie2_data.getvalue())
+
+    if event == 'p_graph3':
+        window4['canvas_pie2'].update(data="")
+        window4['canvas_pie1'].update(data="")
+        window4['canvas_pie4'].update(data="")
+        img_pie3_data.seek(0)
+        window4['canvas_pie3'].update(data=img_pie3_data.getvalue())
+
+    if event == 'p_graph4':
+        window4['canvas_pie2'].update(data="")
+        window4['canvas_pie3'].update(data="")
+        window4['canvas_pie1'].update(data="")
+        img_pie4_data.seek(0)
+        window4['canvas_pie4'].update(data=img_pie4_data.getvalue())
+
+    #Next and previous
+    if window == windows[current_window_index] and event == "Next":
+        windows[current_window_index].hide()
+        current_window_index = (current_window_index + 1) % 6
+        windows[current_window_index].un_hide()
+
+    if event == "Previous":
+        windows[current_window_index].hide()
+        current_window_index = (current_window_index - 1) % 5
+        windows[current_window_index].un_hide()
+
+    elif event == "Insights":
+        window4.hide()
+        window5.un_hide()
+        window5.Maximize()
+
+    if window == window1 and event == 'Next':
+        input_text = values.get('input_text', '')
+        window5['output_text'].update(input_text)
+        window1.hide()
+        window5.hide()
+
+    if window == window5 and event == 'Update Output':
+        input_text = values.get('input_text', '')
+        window5['output_text'].update(input_text)
+
+
+window1.close()
+window5.close()
+
+for window in windows:
+    window.close()
